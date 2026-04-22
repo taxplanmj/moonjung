@@ -65,7 +65,7 @@ export default function RootLayout({
         <html lang="ko" className={notoSansKr.variable}>
             <head>
                 <link rel="manifest" href="/manifest.json" />
-                <link rel="icon" href="/favicon.ico" sizes="any" />
+                <link rel="icon" href="/icon-192.png" type="image/png" />
             </head>
             <body className="min-h-screen bg-white antialiased">
                 <Header />

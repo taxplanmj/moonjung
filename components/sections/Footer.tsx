@@ -17,12 +17,16 @@ export default function Footer() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
                     {/* Company info */}
                     <div className="lg:col-span-2">
-                        <div className="flex items-center gap-2 mb-4">
-                            <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-accent text-white font-bold text-lg">
-                                문
+                        <div className="flex items-center gap-3 mb-5 group">
+                            <div className="relative h-10 w-14 shrink-0 bg-white/10 rounded-lg p-1.5 backdrop-blur-sm border border-white/10">
+                                <img
+                                    src="/moonjung_logo.png"
+                                    alt="문정 로고"
+                                    className="w-auto h-full object-contain brightness-0 invert opacity-90 transition-opacity group-hover:opacity-100"
+                                />
                             </div>
                             <div>
-                                <div className="font-bold text-lg">문정세무회계컨설팅</div>
+                                <div className="font-bold text-xl tracking-tight">문정세무회계컨설팅</div>
                             </div>
                         </div>
                         <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-md">

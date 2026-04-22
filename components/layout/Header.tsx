@@ -42,12 +42,19 @@ export default function Header() {
             <div className="section-container">
                 <div className="flex h-16 items-center justify-between lg:h-20">
                     {/* Logo */}
-                    <Link href="/" className="flex items-center gap-2 min-h-0">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-white font-bold text-lg">
-                            문
+                    <Link href="/" className="flex items-center gap-2.5 min-h-0 group">
+                        <div className="relative h-9 w-12 shrink-0">
+                            <img
+                                src="/moonjung_logo.png"
+                                alt="문정 로고"
+                                className={cn(
+                                    "w-auto h-full object-contain transition-all duration-300",
+                                    !showWhiteBg && "brightness-0 invert opacity-90"
+                                )}
+                            />
                         </div>
                         <span className={cn(
-                            'text-sm font-bold leading-tight transition-colors',
+                            'text-[15px] font-bold leading-tight transition-colors tracking-tight',
                             showWhiteBg ? 'text-primary' : 'text-white'
                         )}>
                             문정세무회계컨설팅
