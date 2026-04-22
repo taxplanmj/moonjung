@@ -3,6 +3,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Shield, Users, TrendingUp, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion, Variants } from 'framer-motion';
 
 /* ── Counter animation hook ── */
 function useCountUp(target: number, duration = 2000) {
@@ -78,6 +79,31 @@ const stats = [
     },
 ];
 
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.15,
+            delayChildren: 0.2,
+        },
+    },
+};
+
+const itemVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.9, y: 20 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 100,
+            damping: 15,
+        },
+    },
+};
+
 export default function StatsSection() {
     return (
         <section className="relative overflow-hidden py-20 lg:py-28">
@@ -131,7 +157,13 @@ export default function StatsSection() {
 
             <div className="section-container relative z-10">
                 {/* Header */}
-                <div className="text-center mb-16">
+                <motion.div
+                    className="text-center mb-16"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-100px' }}
+                    transition={{ duration: 0.6 }}
+                >
                     <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white/80 border border-white/10 rounded-full px-5 py-2 text-xs font-semibold mb-6">
                         <Award className="h-3.5 w-3.5" />
                         신뢰와 전문성
@@ -143,17 +175,24 @@ export default function StatsSection() {
                     <p className="text-white/50 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
                         800개 이상의 기장 경험, 30명의 전문가가 만드는 차이.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Stats cards */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+                <motion.div
+                    className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto"
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: '-100px' }}
+                >
                     {stats.map((stat) => {
                         const Icon = stat.icon;
                         const { count, ref } = useCountUp(stat.value);
                         return (
-                            <div
+                            <motion.div
                                 key={stat.label}
                                 ref={ref}
+                                variants={itemVariants}
                                 className={cn(
                                     'relative group text-center p-8 rounded-3xl',
                                     'bg-white/5 backdrop-blur-sm border border-white/10',
@@ -164,8 +203,8 @@ export default function StatsSection() {
                                 {/* Glow on hover */}
                                 <div className={cn(
                                     'absolute inset-0 rounded-3xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500',
-                                    stat.gradient.replace('from-', 'from-').replace('to-', 'to-'),
-                                )} style={{ opacity: 0 }} />
+                                    stat.gradient,
+                                )} />
 
                                 <div className="relative z-10">
                                     <div className={cn(
@@ -182,10 +221,10 @@ export default function StatsSection() {
                                     <p className="text-lg font-bold text-white/80 mb-1">{stat.label}</p>
                                     <p className="text-sm text-white/40">{stat.description}</p>
                                 </div>
-                            </div>
+                            </motion.div>
                         );
                     })}
-                </div>
+                </motion.div>
             </div>
         </section>
     );

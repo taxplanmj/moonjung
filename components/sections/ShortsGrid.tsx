@@ -3,6 +3,7 @@
 import React from 'react';
 import { Play, Clock, ExternalLink, Youtube, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion, Variants } from 'framer-motion';
 
 interface VideoCard {
     title: string;
@@ -71,6 +72,31 @@ const videos: VideoCard[] = [
     },
 ];
 
+const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: {
+            staggerChildren: 0.1,
+            delayChildren: 0.2,
+        },
+    },
+};
+
+const itemVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.9, y: 30 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 100,
+            damping: 15,
+        },
+    },
+};
+
 export default function ShortsGrid() {
     return (
         <section id="shorts" className="relative section-padding overflow-hidden">
@@ -81,7 +107,13 @@ export default function ShortsGrid() {
 
             <div className="section-container relative z-10">
                 {/* Section header */}
-                <div className="text-center mb-14">
+                <motion.div
+                    className="text-center mb-14"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-100px' }}
+                    transition={{ duration: 0.6 }}
+                >
                     <div className="inline-flex items-center gap-2 bg-red-50 text-red-600 border border-red-100 rounded-full px-5 py-2 text-xs font-semibold mb-6">
                         <Youtube className="h-4 w-4" />
                         세무 꿀팁 영상
@@ -96,17 +128,24 @@ export default function ShortsGrid() {
                         복잡한 세무 이슈를 짧고 명확하게 풀어드립니다.<br className="hidden sm:block" />
                         구독하고 최신 절세 팁을 놓치지 마세요.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Video grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                <motion.div
+                    className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8"
+                    variants={containerVariants}
+                    initial="hidden"
+                    whileInView="visible"
+                    viewport={{ once: true, margin: '-100px' }}
+                >
                     {videos.map((video, idx) => (
-                        <a
+                        <motion.a
                             key={idx}
                             href={video.youtubeUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="group block"
+                            variants={itemVariants}
                         >
                             <div className={cn(
                                 'relative rounded-3xl overflow-hidden',
@@ -181,12 +220,18 @@ export default function ShortsGrid() {
                                     <ExternalLink className="h-4 w-4 text-gray-300 group-hover:text-accent transition-colors" />
                                 </div>
                             </div>
-                        </a>
+                        </motion.a>
                     ))}
-                </div>
+                </motion.div>
 
                 {/* YouTube CTA */}
-                <div className="mt-14 text-center">
+                <motion.div
+                    className="mt-14 text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                >
                     <a
                         href="https://youtube.com"
                         target="_blank"
@@ -202,7 +247,7 @@ export default function ShortsGrid() {
                         유튜브에서 더 보기
                         <ExternalLink className="h-4 w-4 opacity-60" />
                     </a>
-                </div>
+                </motion.div>
             </div>
         </section>
     );

@@ -3,6 +3,7 @@
 import React from 'react';
 import { Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
 
 /* ── Accent colors for card top borders ── */
 const accentColors = [
@@ -78,7 +79,13 @@ export default function TestimonialsSection() {
         <section className="relative pt-6 pb-20 lg:pt-8 lg:pb-24 overflow-hidden bg-gradient-to-b from-white via-gray-50/80 to-white">
             <div className="section-container relative z-10">
                 {/* Header */}
-                <div className="text-center mb-10">
+                <motion.div
+                    className="text-center mb-10"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: '-100px' }}
+                    transition={{ duration: 0.6 }}
+                >
                     <div className="inline-flex items-center gap-2 bg-accent/10 text-accent-700 rounded-full px-4 py-1.5 text-xs font-semibold mb-5">
                         <Star className="h-3.5 w-3.5 fill-current" />
                         고객 후기
@@ -90,10 +97,16 @@ export default function TestimonialsSection() {
                     <p className="text-gray-500 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
                         800개 이상의 고객사가 경험한 차이를 확인하세요.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Marquee Row 1: right to left */}
-                <div className="relative overflow-hidden mb-5">
+                <motion.div
+                    className="relative overflow-hidden mb-5"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                >
                     <div
                         className="flex w-max gap-5"
                         style={{ animation: 'marquee 120s linear infinite' }}
@@ -104,10 +117,16 @@ export default function TestimonialsSection() {
                             <ReviewCard key={`r1-${idx}`} t={t} idx={idx} accentIdx={idx} />
                         ))}
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Marquee Row 2: left to right */}
-                <div className="relative overflow-hidden">
+                <motion.div
+                    className="relative overflow-hidden"
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: 1 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
+                >
                     <div
                         className="flex w-max gap-5"
                         style={{ animation: 'marqueeReverse 100s linear infinite' }}
@@ -118,7 +137,7 @@ export default function TestimonialsSection() {
                             <ReviewCard key={`r2-${idx}`} t={t} idx={idx} accentIdx={idx + 2} />
                         ))}
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );
