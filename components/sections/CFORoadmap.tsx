@@ -3,6 +3,7 @@
 import React from 'react';
 import { FileText, BarChart3, Landmark, Building2, ArrowRight, Rocket } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { motion, Variants } from 'framer-motion';
 
 const steps = [
     {
@@ -63,6 +64,30 @@ const steps = [
     },
 ];
 
+const stepVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+        opacity: 1,
+        y: 0,
+        transition: {
+            type: 'spring',
+            stiffness: 80,
+            damping: 20,
+        },
+    },
+};
+
+const barVariants: Variants = {
+    hidden: { scaleX: 0 },
+    visible: {
+        scaleX: 1,
+        transition: {
+            duration: 1.2,
+            ease: 'circOut',
+        },
+    },
+};
+
 export default function CFORoadmap() {
     return (
         <section id="roadmap" className="relative section-padding overflow-hidden">
@@ -81,7 +106,13 @@ export default function CFORoadmap() {
 
             <div className="section-container relative z-10">
                 {/* Section header */}
-                <div className="text-center mb-16">
+                <motion.div
+                    className="text-center mb-16"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    viewport={{ once: true, margin: '-100px' }}
+                    transition={{ duration: 0.6 }}
+                >
                     <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white/80 border border-white/10 rounded-full px-5 py-2 text-xs font-semibold mb-6">
                         <Rocket className="h-3.5 w-3.5" />
                         성장 로드맵
@@ -97,30 +128,56 @@ export default function CFORoadmap() {
                         단순 기장을 넘어, 사업의 각 성장 단계에 맞는<br className="hidden sm:block" />
                         재무·세무 전략을 함께 설계합니다.
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Desktop: horizontal timeline */}
                 <div className="hidden lg:block">
                     {/* Progress bar */}
                     <div className="relative max-w-5xl mx-auto mb-12">
-                        <div className="h-1.5 bg-white/10 rounded-full">
-                            <div className="h-full w-full rounded-full bg-gradient-to-r from-blue-500 via-emerald-500 via-amber-500 to-purple-500" />
+                        <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                            <motion.div
+                                className="h-full w-full bg-gradient-to-r from-blue-500 via-emerald-500 via-amber-500 to-purple-500 origin-left"
+                                variants={barVariants}
+                                initial="hidden"
+                                whileInView="visible"
+                                viewport={{ once: true, margin: '-100px' }}
+                            />
                         </div>
                         {/* Dots on the progress bar */}
                         <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 flex justify-between px-[calc(12.5%-8px)]">
                             {steps.map((step, idx) => (
-                                <div key={idx} className={cn('w-5 h-5 rounded-full ring-4 ring-offset-2 ring-offset-[#1e3a5f]', step.dotColor, step.ringColor)} />
+                                <motion.div
+                                    key={idx}
+                                    initial={{ scale: 0 }}
+                                    whileInView={{ scale: 1 }}
+                                    viewport={{ once: true }}
+                                    transition={{ delay: 0.2 * idx, duration: 0.4 }}
+                                    className={cn('w-5 h-5 rounded-full ring-4 ring-offset-2 ring-offset-[#1e3a5f]', step.dotColor, step.ringColor)}
+                                />
                             ))}
                         </div>
                     </div>
 
                     {/* Cards row */}
-                    <div className="grid grid-cols-4 gap-5 max-w-5xl mx-auto">
+                    <motion.div
+                        className="grid grid-cols-4 gap-5 max-w-5xl mx-auto"
+                        initial="hidden"
+                        whileInView="visible"
+                        viewport={{ once: true, margin: '-100px' }}
+                        variants={{
+                            visible: {
+                                transition: {
+                                    staggerChildren: 0.15,
+                                },
+                            },
+                        }}
+                    >
                         {steps.map((step, idx) => {
                             const Icon = step.icon;
                             return (
-                                <div
+                                <motion.div
                                     key={idx}
+                                    variants={stepVariants}
                                     className="group relative"
                                 >
                                     <div className={cn(
@@ -163,10 +220,10 @@ export default function CFORoadmap() {
                                             </ul>
                                         </div>
                                     </div>
-                                </div>
+                                </motion.div>
                             );
                         })}
-                    </div>
+                    </motion.div>
                 </div>
 
                 {/* Mobile: vertical timeline */}
@@ -174,7 +231,14 @@ export default function CFORoadmap() {
                     {steps.map((step, idx) => {
                         const Icon = step.icon;
                         return (
-                            <div key={idx} className="flex gap-5">
+                            <motion.div
+                                key={idx}
+                                className="flex gap-5"
+                                initial={{ opacity: 0, x: -20 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: '-50px' }}
+                                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                            >
                                 {/* Timeline line + dot */}
                                 <div className="flex flex-col items-center">
                                     <div className={cn(
@@ -184,7 +248,13 @@ export default function CFORoadmap() {
                                         <Icon className="h-6 w-6" />
                                     </div>
                                     {idx < steps.length - 1 && (
-                                        <div className="w-0.5 flex-1 mt-3 bg-gradient-to-b from-white/20 to-transparent" />
+                                        <motion.div
+                                            className="w-0.5 flex-1 mt-3 bg-white/20 origin-top"
+                                            initial={{ scaleY: 0 }}
+                                            whileInView={{ scaleY: 1 }}
+                                            viewport={{ once: true }}
+                                            transition={{ duration: 0.5, delay: 0.2 + idx * 0.1 }}
+                                        />
                                     )}
                                 </div>
 
@@ -197,13 +267,19 @@ export default function CFORoadmap() {
                                     <p className="text-sm text-accent-300 font-medium mb-2">{step.subtitle}</p>
                                     <p className="text-sm text-white/50 leading-relaxed">{step.description}</p>
                                 </div>
-                            </div>
+                            </motion.div>
                         );
                     })}
                 </div>
 
                 {/* Bottom CTA */}
-                <div className="mt-14 text-center">
+                <motion.div
+                    className="mt-14 text-center"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                >
                     <a
                         href="/consultation/"
                         className={cn(
@@ -216,7 +292,7 @@ export default function CFORoadmap() {
                         나에게 맞는 성장 단계 확인하기
                         <ArrowRight className="h-5 w-5" />
                     </a>
-                </div>
+                </motion.div>
             </div>
         </section>
     );
