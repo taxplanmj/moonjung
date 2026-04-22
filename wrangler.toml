@@ -1,5 +1,1 @@
-name = "moomjung-tax"
-compatibility_date = "2024-12-01"
-
-[site]
-bucket = "./out"
+pages_build_output_dir = "out"
