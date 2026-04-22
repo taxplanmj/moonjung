@@ -122,30 +122,40 @@ export default function ConsultationForm() {
     /* ─── Success State ─── */
     if (status === 'success') {
         return (
-            <div className="text-center py-10 px-4">
-                {/* Glowing check */}
-                <div className="relative inline-flex items-center justify-center mb-6">
-                    <div className="absolute w-20 h-20 bg-emerald-400/20 rounded-full blur-xl" />
-                    <div className="relative w-16 h-16 rounded-2xl bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-lg">
-                        <Check className="h-8 w-8 text-white" />
+            <div className="text-center py-12 px-4 animate-in fade-in zoom-in duration-500">
+                {/* Celebratory Icon */}
+                <div className="relative inline-flex items-center justify-center mb-8">
+                    <div className="absolute w-24 h-24 bg-emerald-400/20 rounded-full blur-2xl animate-pulse" />
+                    <div className="relative w-20 h-20 rounded-[2rem] bg-gradient-to-br from-emerald-400 to-teal-500 flex items-center justify-center shadow-xl shadow-emerald-500/20 transform hover:scale-110 transition-transform duration-300">
+                        <Check className="h-10 w-10 text-white" />
                     </div>
+                    {/* Floating decoration */}
+                    <div className="absolute -top-2 -right-2 text-2xl animate-bounce" style={{ animationDuration: '3s' }}>✨</div>
+                    <div className="absolute -bottom-1 -left-3 text-xl animate-bounce" style={{ animationDuration: '2.5s' }}>🎉</div>
                 </div>
-                <h3 className="text-2xl font-extrabold text-primary mb-3 tracking-tight">상담 신청 완료!</h3>
-                <p className="text-gray-500 mb-8 max-w-sm mx-auto leading-relaxed text-sm">
-                    전문가가 <span className="text-accent font-semibold">24시간 이내</span>에 연락드리겠습니다.
-                    <br />알림톡으로도 확인해 주세요.
-                </p>
-                <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <Button variant="accent" className="gap-2 rounded-xl shadow-lg shadow-accent/20">
-                        <Download className="h-4 w-4" />
-                        절세 가이드 PDF 받기
-                    </Button>
-                    <a href="https://pf.kakao.com" target="_blank" rel="noopener noreferrer">
-                        <Button variant="outline" className="gap-2 w-full rounded-xl">
-                            <MessageCircle className="h-4 w-4" />
-                            카카오톡 채널 추가
+
+                <div className="max-w-md mx-auto">
+                    <h3 className="text-3xl font-extrabold text-primary mb-4 tracking-tight">상담 신청이 완료되었습니다!</h3>
+                    <p className="text-gray-500 mb-10 leading-relaxed text-base">
+                        문정세무회계컨설팅의 전문가가 <span className="text-accent font-bold underline decoration-accent/30 underline-offset-4">24시간 이내</span>에<br className="hidden sm:block" />
+                        직접 전화를 드려 사장님께 딱 맞는 절세 전략을 제안해 드립니다.
+                    </p>
+
+                    <div className="grid gap-4 sm:grid-cols-2 max-w-sm mx-auto">
+                        <Button
+                            variant="accent"
+                            className="h-14 gap-2 rounded-2xl shadow-lg shadow-accent/20 font-bold text-base hover:shadow-accent/40"
+                        >
+                            <Download className="h-5 w-5" />
+                            절세 가이드 PDF
                         </Button>
-                    </a>
+                        <a href="https://pf.kakao.com" target="_blank" rel="noopener noreferrer" className="block">
+                            <Button variant="outline" className="h-14 gap-2 w-full rounded-2xl font-bold text-base border-2 hover:bg-gray-50">
+                                <MessageCircle className="h-5 w-5 text-[#FAE100] fill-[#FAE100]" />
+                                카카오톡 문의
+                            </Button>
+                        </a>
+                    </div>
                 </div>
             </div>
         );
