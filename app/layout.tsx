@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next';
 import { Noto_Sans_KR } from 'next/font/google';
 import Header from '@/components/layout/Header';
 import BottomNav from '@/components/layout/BottomNav';
+import Footer from '@/components/sections/Footer';
 import '@/styles/globals.css';
 
 const notoSansKr = Noto_Sans_KR({
@@ -12,6 +13,7 @@ const notoSansKr = Noto_Sans_KR({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://moonjung.pages.dev'),
     title: {
         default: '문정세무회계컨설팅 | 이커머스 셀러 전문 세무 파트너',
         template: '%s | 문정세무회계컨설팅',
@@ -32,7 +34,7 @@ export const metadata: Metadata = {
     openGraph: {
         type: 'website',
         locale: 'ko_KR',
-        url: 'https://moomjung.co.kr',
+        url: process.env.NEXT_PUBLIC_SITE_URL || 'https://moonjung.pages.dev',
         siteName: '문정세무회계컨설팅',
         title: '문정세무회계컨설팅 | 이커머스 셀러 전문 세무 파트너',
         description:
@@ -69,7 +71,10 @@ export default function RootLayout({
             </head>
             <body className="min-h-screen bg-white antialiased">
                 <Header />
-                <main className="pb-bottom-nav">{children}</main>
+                <div className="pb-bottom-nav">
+                    <main>{children}</main>
+                    <Footer />
+                </div>
                 <BottomNav />
             </body>
         </html>

@@ -1,3 +1,8 @@
 name = "moonjung"
 pages_build_output_dir = "out"
 compatibility_date = "2024-04-23"
+
+# 블로그 이미지 저장용 R2 버킷. 대시보드에 이미 "moonjung" 버킷으로 생성되어 있음.
+[[r2_buckets]]
+binding = "BLOG_IMAGES"
+bucket_name = "moonjung"

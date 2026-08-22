@@ -12,6 +12,7 @@ const navItems = [
     { label: '성장 로드맵', href: '/#roadmap' },
     { label: '세무 꿀팁', href: '/#shorts' },
     { label: '전문가 소개', href: '/#team' },
+    { label: '블로그', href: '/blog/' },
 ];
 
 export default function Header() {

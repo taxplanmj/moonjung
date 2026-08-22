@@ -6,7 +6,6 @@ import StatsSection from '@/components/sections/StatsSection';
 import TeamSection from '@/components/sections/TeamSection';
 import PricingSection from '@/components/sections/PricingSection';
 import FAQSection from '@/components/sections/FAQSection';
-import Footer from '@/components/sections/Footer';
 import { faqs } from '@/lib/faq-data';
 import { getFAQJsonLd } from '@/lib/seo';
 
@@ -25,7 +24,6 @@ export default function MarketingPage() {
             <TeamSection />
             <PricingSection />
             <FAQSection />
-            <Footer />
         </>
     );
 }

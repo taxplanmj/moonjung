@@ -7,7 +7,7 @@ interface SEOProps {
     ogImage?: string;
 }
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://moomjung.co.kr';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://moonjung.pages.dev';
 
 export function generateSEOMeta({ title, description, path = '', ogImage }: SEOProps): Metadata {
     const url = `${SITE_URL}${path}`;

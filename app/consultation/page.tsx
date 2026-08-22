@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import ConsultationForm from '@/components/forms/ConsultationForm';
-import Footer from '@/components/sections/Footer';
 import { Sparkles } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -49,7 +48,6 @@ export default function ConsultationPage() {
                     </div>
                 </div>
             </section>
-            <Footer />
         </>
     );
 }
