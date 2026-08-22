@@ -18,11 +18,8 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         const sql = neon(env.DATABASE_URL);
         const db = drizzle(sql);
         posts = await db.select().from(blogPosts).orderBy(desc(blogPosts.publishedAt));
-    } catch (err) {
-        return new Response(`DEBUG_ERROR: ${err instanceof Error ? err.stack || err.message : String(err)}`, {
-            status: 500,
-            headers: { 'Content-Type': 'text/plain; charset=utf-8' },
-        });
+    } catch {
+        posts = [];
     }
 
     const cardsHtml =
