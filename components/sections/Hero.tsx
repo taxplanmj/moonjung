@@ -72,27 +72,27 @@ export default function Hero() {
                     {/* Eyebrow badge */}
                     <motion.div variants={itemVariants}>
                         <Badge variant="accent" className="mb-6 bg-accent/20 text-accent-300 border-accent/30 px-4 py-1.5 text-xs">
-                            🔥 이커머스 셀러 전문 세무 파트너
+                            🧾 이커머스 셀러 전문 세무 파트너
                         </Badge>
                     </motion.div>
 
                     {/* Main headline */}
                     <motion.h1
-                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.15] mb-6 tracking-tight"
+                        className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-white leading-[1.5] mb-6 tracking-tight"
                         variants={itemVariants}
                     >
-                        매출은 올리고,{' '}
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-400 to-rose-400">쿠팡</span>부터{' '}
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-pink-400 to-fuchsia-300">틱톡샵</span>까지{' '}
                         <br className="hidden sm:block" />
-                        세금은{' '}
+                        <span className="bg-clip-text text-transparent bg-gradient-to-r from-amber-300 to-accent-300">이커머스</span>는{' '}
                         <span className="text-gradient bg-gradient-to-r from-accent to-accent-300">
-                            전략적으로
+                            우리가 다 압니다
                         </span>
                     </motion.h1>
 
                     {/* Sub-headline */}
                     <motion.p
                         className="text-base sm:text-lg text-gray-300 leading-relaxed mb-8 max-w-2xl mx-auto lg:mx-0"
-                        style={{ wordBreak: 'keep-all' }}
                         variants={itemVariants}
                     >
                         쿠팡·틱톡샵·네이버·해외직구·자사몰 셀러를 위한
@@ -130,16 +130,12 @@ export default function Hero() {
                                 <ArrowRight className="ml-2 h-5 w-5" />
                             </Button>
                         </Link>
-                        <a
-                            href="https://youtube.com"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
+                        <Link href="/#shorts">
                             <Button variant="outline" size="xl" className="w-full sm:w-auto border-white/30 text-white hover:bg-white/10 hover:text-white">
                                 <Play className="mr-2 h-5 w-5" />
-                                유튜브 핵심 팁
+                                세무 꿀팁 보기
                             </Button>
-                        </a>
+                        </Link>
                     </motion.div>
                 </div>
             </motion.div>

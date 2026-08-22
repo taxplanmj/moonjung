@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { FileText, BarChart3, Landmark, Building2, ArrowRight, Rocket } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, Variants } from 'framer-motion';
@@ -12,7 +13,7 @@ const steps = [
         title: '세무신고',
         subtitle: '기본을 탄탄하게',
         description: '부가세·종합소득세·법인세 정확한 신고와 절세 전략 수립',
-        details: ['부가세·종합소득세 신고', '업종별 절세 전략', '전자 세금계산서 발행'],
+        details: ['부가세·종합소득세 신고', '업종별 절세 전략', '신고 누락·가산세 리스크 점검'],
         gradient: 'from-blue-500 to-cyan-500',
         bgGradient: 'from-blue-500/10 to-cyan-500/5',
         iconBg: 'bg-blue-500',
@@ -53,8 +54,8 @@ const steps = [
         step: 'STEP 04',
         title: '기업성장',
         subtitle: '스케일업 파트너',
-        description: '법인전환, M&A, 기업가치평가, 투자유치 자문까지 원스톱 지원',
-        details: ['법인전환·M&A 자문', '기업가치평가', '투자유치 원스톱 지원'],
+        description: '법인전환은 직접, M&A·투자유치는 전문 파트너사와 연계해 지원합니다',
+        details: ['법인전환 컨설팅', 'M&A·기업가치평가 연계', '투자유치 자문 연결'],
         gradient: 'from-purple-500 to-violet-500',
         bgGradient: 'from-purple-500/10 to-violet-500/5',
         iconBg: 'bg-purple-500',
@@ -280,7 +281,7 @@ export default function CFORoadmap() {
                     viewport={{ once: true }}
                     transition={{ duration: 0.6, delay: 0.4 }}
                 >
-                    <a
+                    <Link
                         href="/consultation/"
                         className={cn(
                             'inline-flex items-center gap-3 px-8 py-4 rounded-2xl',
@@ -291,7 +292,7 @@ export default function CFORoadmap() {
                     >
                         나에게 맞는 성장 단계 확인하기
                         <ArrowRight className="h-5 w-5" />
-                    </a>
+                    </Link>
                 </motion.div>
             </div>
         </section>

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import {
     ArrowRight,
     CheckCircle2,
@@ -35,7 +36,7 @@ const platforms: PlatformData[] = [
         accentDot: 'bg-red-500',
         issues: [
             { title: '로켓그로스 수수료 처리', description: '복잡한 수수료 구조를 정확히 비용처리하여 세금 절감' },
-            { title: '재고 자산 평가', description: 'FBA 보관 재고의 세법상 올바른 자산 평가 방법' },
+            { title: '재고 자산 평가', description: '로켓그로스 보관 재고의 세법상 올바른 자산 평가 방법' },
             { title: '매출 정산 시점 이슈', description: '정산일과 귀속시기 차이로 인한 신고 오류 방지' },
         ],
         process: ['매출/정산 데이터 수집', '수수료 항목별 분류', '절세 포인트 도출', '신고 및 모니터링'],
@@ -156,9 +157,9 @@ export default function PlatformTabs() {
                         플랫폼별 맞춤 서비스
                     </div>
                     <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-primary mb-5 tracking-tight">
-                        당신의 플랫폼,{' '}
+                        플랫폼마다,{' '}
                         <span className="text-gradient bg-gradient-to-r from-accent to-accent-400">
-                            우리가 압니다
+                            챙겨야 할 포인트가 다릅니다
                         </span>
                     </h2>
                     <p className="text-gray-500 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
@@ -318,13 +319,13 @@ export default function PlatformTabs() {
                                         </p>
                                         <p className="text-white/80 text-sm">무료 상담으로 절세 포인트를 확인하세요</p>
                                     </div>
-                                    <a
+                                    <Link
                                         href="/consultation/"
                                         className="shrink-0 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-xl px-5 py-3 text-sm font-semibold transition-colors flex items-center gap-2"
                                     >
                                         상담 신청
                                         <ArrowRight className="h-4 w-4" />
-                                    </a>
+                                    </Link>
                                 </motion.div>
                             </div>
                         </div>

@@ -34,6 +34,14 @@ export const painPointOptions: PainPointOption[] = [
     { id: 'other', label: '기타 문의', emoji: '💬' },
 ];
 
+/** "기타 문의" 선택 시 보여주는 빠른 선택 칩 — 클릭하면 상세 입력란에 채워짐 */
+export const otherPainPointSuggestions: string[] = [
+    '세무조사 대응 상담이 필요합니다.',
+    '폐업/휴업 관련 상담이 필요합니다.',
+    '증여/상속세 관련 상담이 필요합니다.',
+    '해외 판매(역직구) 관련 세무 상담이 필요합니다.',
+];
+
 export type RevenueRange = 'under-50m' | '50m-100m' | '100m-500m' | '500m-1b' | 'over-1b';
 
 export const revenueRangeOptions: { id: RevenueRange; label: string }[] = [
@@ -44,15 +52,26 @@ export const revenueRangeOptions: { id: RevenueRange; label: string }[] = [
     { id: 'over-1b', label: '10억 이상' },
 ];
 
-export const consultationSchema = z.object({
-    platform: z.string().min(1, '판매 플랫폼을 선택해주세요'),
-    painPoint: z.string().min(1, '고민 유형을 선택해주세요'),
-    name: z.string().min(2, '이름을 2자 이상 입력해주세요'),
-    phone: z.string().min(10, '올바른 연락처를 입력해주세요').regex(/^[0-9-]+$/, '숫자와 하이픈만 입력'),
-    email: z.string().email('올바른 이메일을 입력해주세요'),
-    revenueRange: z.string().min(1, '월 매출 구간을 선택해주세요'),
-    privacyAgreed: z.literal(true, { errorMap: () => ({ message: '개인정보 수집·이용에 동의해주세요' }) }),
-});
+export const consultationSchema = z
+    .object({
+        platform: z.string().min(1, '판매 플랫폼을 선택해주세요'),
+        painPoint: z.string().min(1, '고민 유형을 선택해주세요'),
+        otherPainPointDetail: z.string().optional(),
+        name: z.string().min(2, '이름을 2자 이상 입력해주세요'),
+        phone: z.string().min(10, '올바른 연락처를 입력해주세요').regex(/^[0-9-]+$/, '숫자와 하이픈만 입력'),
+        email: z.string().email('올바른 이메일을 입력해주세요'),
+        revenueRange: z.string().min(1, '월 매출 구간을 선택해주세요'),
+        privacyAgreed: z.literal(true, { errorMap: () => ({ message: '개인정보 수집·이용에 동의해주세요' }) }),
+    })
+    .superRefine((data, ctx) => {
+        if (data.painPoint === 'other' && !data.otherPainPointDetail?.trim()) {
+            ctx.addIssue({
+                code: z.ZodIssueCode.custom,
+                message: '어떤 문의인지 간단히 적어주세요',
+                path: ['otherPainPointDetail'],
+            });
+        }
+    });
 
 export type ConsultationLead = z.infer<typeof consultationSchema>;
 export type FormStep = 1 | 2 | 3;

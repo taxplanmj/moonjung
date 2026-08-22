@@ -116,10 +116,10 @@ export default function Footer() {
                         © {new Date().getFullYear()} 문정세무회계컨설팅. All rights reserved.
                     </p>
                     <div className="flex items-center gap-6">
-                        <Link href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors min-h-0">
+                        <Link href="/privacy/" className="text-xs text-white/30 hover:text-white/60 transition-colors min-h-0">
                             개인정보처리방침
                         </Link>
-                        <Link href="#" className="text-xs text-white/30 hover:text-white/60 transition-colors min-h-0">
+                        <Link href="/terms/" className="text-xs text-white/30 hover:text-white/60 transition-colors min-h-0">
                             이용약관
                         </Link>
                     </div>

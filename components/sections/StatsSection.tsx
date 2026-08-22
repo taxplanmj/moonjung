@@ -1,52 +1,10 @@
 'use client';
 
-import React, { useEffect, useState, useRef } from 'react';
+import React from 'react';
 import { Shield, Users, TrendingUp, Award } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, Variants } from 'framer-motion';
-
-/* ── Counter animation hook ── */
-function useCountUp(target: number, duration = 2000) {
-    const [count, setCount] = useState(0);
-    const [started, setStarted] = useState(false);
-    const ref = useRef<HTMLDivElement>(null);
-
-    useEffect(() => {
-        const el = ref.current;
-        if (!el) return;
-
-        const observer = new IntersectionObserver(
-            ([entry]) => {
-                if (entry.isIntersecting && !started) {
-                    setStarted(true);
-                }
-            },
-            { threshold: 0.3 }
-        );
-
-        observer.observe(el);
-        return () => observer.disconnect();
-    }, [started]);
-
-    useEffect(() => {
-        if (!started) return;
-
-        let startTime: number;
-        const easeOutQuart = (t: number) => 1 - Math.pow(1 - t, 4);
-
-        const step = (timestamp: number) => {
-            if (!startTime) startTime = timestamp;
-            const progress = Math.min((timestamp - startTime) / duration, 1);
-            setCount(Math.floor(easeOutQuart(progress) * target));
-            if (progress < 1) {
-                requestAnimationFrame(step);
-            }
-        };
-        requestAnimationFrame(step);
-    }, [started, target, duration]);
-
-    return { count, ref };
-}
+import { useCountUp } from '@/lib/useCountUp';
 
 /* ── Stats data ── */
 const stats = [
@@ -103,6 +61,48 @@ const itemVariants: Variants = {
         },
     },
 };
+
+type Stat = (typeof stats)[number];
+
+function StatCard({ stat }: { stat: Stat }) {
+    const Icon = stat.icon;
+    const { count, ref } = useCountUp(stat.value);
+
+    return (
+        <motion.div
+            ref={ref}
+            variants={itemVariants}
+            className={cn(
+                'relative group text-center p-8 rounded-3xl',
+                'bg-white/5 backdrop-blur-sm border border-white/10',
+                'hover:bg-white/10 hover:border-white/20 hover:-translate-y-1',
+                'transition-all duration-500'
+            )}
+        >
+            {/* Glow on hover */}
+            <div className={cn(
+                'absolute inset-0 rounded-3xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500',
+                stat.gradient,
+            )} />
+
+            <div className="relative z-10">
+                <div className={cn(
+                    'inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 bg-gradient-to-br text-white shadow-lg',
+                    stat.gradient
+                )}>
+                    <Icon className="h-8 w-8" />
+                </div>
+
+                <div className="text-5xl sm:text-6xl font-extrabold text-white mb-2 tabular-nums">
+                    {count}
+                    <span className="text-accent">{stat.suffix}</span>
+                </div>
+                <p className="text-lg font-bold text-white/80 mb-1">{stat.label}</p>
+                <p className="text-sm text-white/40">{stat.description}</p>
+            </div>
+        </motion.div>
+    );
+}
 
 export default function StatsSection() {
     return (
@@ -185,45 +185,9 @@ export default function StatsSection() {
                     whileInView="visible"
                     viewport={{ once: true, margin: '-100px' }}
                 >
-                    {stats.map((stat) => {
-                        const Icon = stat.icon;
-                        const { count, ref } = useCountUp(stat.value);
-                        return (
-                            <motion.div
-                                key={stat.label}
-                                ref={ref}
-                                variants={itemVariants}
-                                className={cn(
-                                    'relative group text-center p-8 rounded-3xl',
-                                    'bg-white/5 backdrop-blur-sm border border-white/10',
-                                    'hover:bg-white/10 hover:border-white/20 hover:-translate-y-1',
-                                    'transition-all duration-500'
-                                )}
-                            >
-                                {/* Glow on hover */}
-                                <div className={cn(
-                                    'absolute inset-0 rounded-3xl bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-500',
-                                    stat.gradient,
-                                )} />
-
-                                <div className="relative z-10">
-                                    <div className={cn(
-                                        'inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 bg-gradient-to-br text-white shadow-lg',
-                                        stat.gradient
-                                    )}>
-                                        <Icon className="h-8 w-8" />
-                                    </div>
-
-                                    <div className="text-5xl sm:text-6xl font-extrabold text-white mb-2 tabular-nums">
-                                        {count}
-                                        <span className="text-accent">{stat.suffix}</span>
-                                    </div>
-                                    <p className="text-lg font-bold text-white/80 mb-1">{stat.label}</p>
-                                    <p className="text-sm text-white/40">{stat.description}</p>
-                                </div>
-                            </motion.div>
-                        );
-                    })}
+                    {stats.map((stat) => (
+                        <StatCard key={stat.label} stat={stat} />
+                    ))}
                 </motion.div>
             </div>
         </section>

@@ -1,9 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
+import Link from 'next/link';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft, ArrowRight, Check, Loader2, Download, MessageCircle, CheckCircle2, TrendingUp, Receipt, Landmark, ClipboardEdit, MessageSquareMore } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Check, Loader2, MessageCircle, CheckCircle2, TrendingUp, Receipt, Landmark, ClipboardEdit, MessageSquareMore } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -16,6 +17,7 @@ import {
     type FormStep,
     platformOptions,
     painPointOptions,
+    otherPainPointSuggestions,
     revenueRangeOptions,
 } from '@/types/consultation';
 
@@ -67,7 +69,7 @@ export default function ConsultationForm() {
         mode: 'onChange',
     });
 
-    const { register, setValue, watch, formState: { errors }, trigger } = form;
+    const { register, setValue, watch, formState: { errors }, trigger, setError, clearErrors } = form;
     const selectedPlatform = watch('platform');
     const selectedPainPoint = watch('painPoint');
 
@@ -77,7 +79,13 @@ export default function ConsultationForm() {
             if (valid) setStep(2);
         } else if (step === 2) {
             const valid = await trigger('painPoint');
-            if (valid) setStep(3);
+            if (!valid) return;
+            if (selectedPainPoint === 'other' && !watch('otherPainPointDetail')?.trim()) {
+                setError('otherPainPointDetail', { type: 'manual', message: '어떤 문의인지 간단히 적어주세요' });
+                return;
+            }
+            clearErrors('otherPainPointDetail');
+            setStep(3);
         }
     };
 
@@ -141,18 +149,16 @@ export default function ConsultationForm() {
                         직접 전화를 드려 사장님께 딱 맞는 절세 전략을 제안해 드립니다.
                     </p>
 
-                    <div className="grid gap-4 sm:grid-cols-2 max-w-sm mx-auto">
-                        <Button
-                            variant="accent"
-                            className="h-14 gap-2 rounded-2xl shadow-lg shadow-accent/20 font-bold text-base hover:shadow-accent/40"
+                    <div className="max-w-sm mx-auto">
+                        <a
+                            href={process.env.NEXT_PUBLIC_KAKAO_CHANNEL || 'https://pf.kakao.com'}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
                         >
-                            <Download className="h-5 w-5" />
-                            절세 가이드 PDF
-                        </Button>
-                        <a href="https://pf.kakao.com" target="_blank" rel="noopener noreferrer" className="block">
-                            <Button variant="outline" className="h-14 gap-2 w-full rounded-2xl font-bold text-base border-2 hover:bg-gray-50">
-                                <MessageCircle className="h-5 w-5 text-[#FAE100] fill-[#FAE100]" />
-                                카카오톡 문의
+                            <Button variant="accent" className="h-14 gap-2 w-full rounded-2xl shadow-lg shadow-accent/20 font-bold text-base hover:shadow-accent/40">
+                                <MessageCircle className="h-5 w-5 fill-white" />
+                                카카오톡으로 바로 문의하기
                             </Button>
                         </a>
                     </div>
@@ -296,6 +302,33 @@ export default function ConsultationForm() {
                             })}
                         </div>
                         {errors.painPoint && <p className="text-red-500 text-sm mt-3">{errors.painPoint.message}</p>}
+
+                        {/* "기타 문의" 선택 시 — 빠른 선택 칩 + 직접 입력 */}
+                        {selectedPainPoint === 'other' && (
+                            <div className="mt-4 animate-fade-in">
+                                <div className="flex flex-wrap gap-2 mb-3">
+                                    {otherPainPointSuggestions.map((suggestion) => (
+                                        <button
+                                            key={suggestion}
+                                            type="button"
+                                            onClick={() => setValue('otherPainPointDetail', suggestion, { shouldValidate: true })}
+                                            className="text-xs font-semibold px-3 py-2 rounded-full border border-gray-200 text-gray-600 bg-white hover:border-accent hover:text-accent transition-colors"
+                                        >
+                                            {suggestion}
+                                        </button>
+                                    ))}
+                                </div>
+                                <textarea
+                                    {...register('otherPainPointDetail')}
+                                    placeholder="어떤 문의인지 자유롭게 적어주세요"
+                                    rows={3}
+                                    className="flex w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 placeholder:text-gray-400 focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors resize-none"
+                                />
+                                {errors.otherPainPointDetail && (
+                                    <p className="text-red-500 text-xs mt-1">{errors.otherPainPointDetail.message}</p>
+                                )}
+                            </div>
+                        )}
                     </div>
                 )}
 
@@ -365,7 +398,16 @@ export default function ConsultationForm() {
                                 onCheckedChange={(checked) => setValue('privacyAgreed', checked === true ? true : undefined as unknown as true, { shouldValidate: true })}
                             />
                             <label htmlFor="privacy" className="text-sm text-gray-600 leading-relaxed cursor-pointer min-h-0">
-                                <span className="text-accent font-semibold">[필수]</span> 개인정보 수집·이용에 동의합니다.
+                                <span className="text-accent font-semibold">[필수]</span> 개인정보 수집·이용에 동의합니다. (
+                                <Link
+                                    href="/privacy/"
+                                    target="_blank"
+                                    className="underline hover:text-accent"
+                                    onClick={(e) => e.stopPropagation()}
+                                >
+                                    내용 보기
+                                </Link>
+                                )
                             </label>
                         </div>
                         {errors.privacyAgreed && <p className="text-red-500 text-xs">{errors.privacyAgreed.message}</p>}
