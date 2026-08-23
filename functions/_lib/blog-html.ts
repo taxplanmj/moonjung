@@ -78,6 +78,20 @@ a{color:inherit;text-decoration:none;}
 .cta-block p.desc{color:rgba(255,255,255,.6);font-size:14px;margin:0 0 1.5rem;}
 
 .not-found{max-width:32rem;margin:6rem auto;text-align:center;color:var(--text-muted);}
+
+/* Draft review */
+.review-list{display:flex;flex-direction:column;gap:1.5rem;max-width:42rem;}
+.review-card{display:flex;gap:1.25rem;border:1px solid #f3f4f6;border-radius:1.25rem;padding:1.25rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.review-card .thumb{width:140px;flex-shrink:0;aspect-ratio:16/10;border-radius:.75rem;overflow:hidden;background:#f4f6f8;}
+.review-card .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+.review-card .body{flex:1;min-width:0;}
+.review-card h2{font-size:1.05rem;font-weight:700;color:#111827;margin:0 0 .4rem;}
+.review-card p{font-size:14px;color:var(--text-muted);margin:0 0 .75rem;}
+.review-card details{margin-bottom:.75rem;font-size:14px;}
+.review-card summary{cursor:pointer;color:var(--accent);font-weight:600;}
+.review-card details .post-body{margin-top:.75rem;font-size:14px;line-height:1.7;}
+.review-card form{margin:0;}
+.review-card .cta-btn{border:none;cursor:pointer;font-family:inherit;}
 `;
 
 const navLinks = [

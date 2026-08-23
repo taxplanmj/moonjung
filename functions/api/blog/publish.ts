@@ -13,9 +13,9 @@
  *   slug?: string             // 안 주면 title에서 자동 생성
  * }
  *
- * 하는 일: 이미지를 R2에 저장 → 글을 Neon에 저장. /blog는 Cloudflare Pages
- * Function(functions/blog/*)이 매 요청마다 Neon을 직접 읽어 렌더링하므로
- * 별도 재배포 트리거가 필요 없다 — 저장 즉시 반영된다.
+ * 하는 일: 이미지를 R2에 저장 → 글을 Neon에 draft 상태로 저장. 공개 /blog에는
+ * 뜨지 않고, /blog/review/?key=<BLOG_API_SECRET>에서 검토 후 승인해야 published로
+ * 바뀌어 노출된다 (functions/blog/review.ts, functions/api/blog/approve.ts).
  *
  * 필요한 환경변수/바인딩 (Cloudflare Pages 대시보드 또는 wrangler pages secret put):
  * - BLOG_API_SECRET   (이 엔드포인트 인증용 비밀키)
@@ -108,6 +108,7 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             contentMarkdown: body.contentMarkdown,
             imageUrl,
             source: 'own-blog',
+            status: 'draft',
         });
     } catch (err) {
         return new Response(
@@ -120,8 +121,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
         JSON.stringify({
             success: true,
             slug,
-            url: `/blog/${slug}/`,
-            note: '이미 사이트에 반영되었습니다.',
+            status: 'draft',
+            note: '초안으로 저장되었습니다. /blog/review/ 에서 검토 후 승인해야 사이트에 노출됩니다.',
         }),
         { status: 200, headers: { 'Content-Type': 'application/json' } }
     );

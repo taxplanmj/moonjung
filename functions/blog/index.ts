@@ -2,7 +2,7 @@
 
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
-import { desc } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { blogPosts } from '../../lib/db/schema';
 import { renderPage, escapeHtml } from '../_lib/blog-html';
 
@@ -17,7 +17,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     try {
         const sql = neon(env.DATABASE_URL);
         const db = drizzle(sql);
-        posts = await db.select().from(blogPosts).orderBy(desc(blogPosts.publishedAt));
+        posts = await db
+            .select()
+            .from(blogPosts)
+            .where(eq(blogPosts.status, 'published'))
+            .orderBy(desc(blogPosts.publishedAt));
     } catch {
         posts = [];
     }

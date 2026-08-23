@@ -69,24 +69,31 @@
 
 ## 자사 블로그 자동 발행 (구현 완료)
 
-챗지피티 Pro 요금제의 예약 작업(Scheduled Tasks) + 커스텀 GPT 액션으로
-2~3일마다 AI가 직접 글을 쓰고 이미지를 만들어 사이트에 게시하는 구조로
-**사람의 검수 단계 없이** 완전 자동화했습니다. 관리자 로그인 UI는 없고,
-API 비밀키(Bearer 토큰)만으로 인증합니다.
+챗지피티 Work의 예약 작업(Scheduled Tasks) + Skill로 2~3일마다 AI가 직접 초안을
+쓰고 이미지를 만들어 등록하면, 대표님이 `/blog/review/`에서 원터치로 승인해야
+실제 공개되는 구조입니다. 관리자 로그인 UI는 없고, API 비밀키 하나로 발행 API
+인증과 검토 페이지 접근 제어를 겸합니다.
+
+> 처음엔 "사람 검수 없이 완전 자동 공개"로 설계했었는데, 두 가지 이유로 초안
+> +원터치 승인 구조로 바뀌었습니다: (1) 챗지피티 Scheduled Tasks는 Custom GPT를
+> 지원하지 않아 Custom GPT Action 설계 자체를 Skill 기반으로 다시 짜야 했고,
+> (2) 그 과정에서 "완전 자동 공개면 승인은 어떻게 하냐"는 질문이 나오면서
+> 최소 검수 단계(초안 → 원터치 승인)를 넣는 쪽으로 재결정.
 
 ```
-[챗지피티 예약 작업] → [커스텀 GPT 액션] → POST /api/blog/publish
+[챗지피티 Scheduled Task] → [Skill] → POST /api/blog/publish
                                                   ↓
                               Cloudflare Pages Function (functions/api/blog/publish.ts)
                                                   ↓
-                    이미지 fetch → R2 저장         글 메타데이터 → Neon 저장
+                    이미지 fetch → R2 저장    글 메타데이터 → Neon 저장 (status: draft)
                                                   ↓
-                                          저장 즉시 반영 완료
-
-  방문자가 /blog/ 또는 /blog/[slug]/ 요청
-                    ↓
-  Cloudflare Pages Function (functions/blog/index.ts, functions/blog/[slug].ts)이
-  요청마다 Neon을 직접 읽어 그 자리에서 HTML 렌더링 (재배포 불필요)
+                              대표님이 /blog/review/?key=... 접속
+                                                  ↓
+                    "발행하기" 클릭 → POST /api/blog/approve → status: published
+                                                  ↓
+  방문자가 /blog/ 또는 /blog/[slug]/ 요청 → Cloudflare Pages Function
+  (functions/blog/index.ts, functions/blog/[slug].ts)이 요청마다 Neon에서
+  published 글만 직접 읽어 그 자리에서 HTML 렌더링 (재배포 불필요)
 ```
 
 - 이미지를 깃허브 저장소에 커밋하는 방식은 채택하지 않음 (레포가 영구적으로
@@ -101,8 +108,8 @@ API 비밀키(Bearer 토큰)만으로 인증합니다.
   재배포 없이 즉시 반영되도록 최종 확정. 이 "Function이 Neon을 직접 읽는" 패턴은
   향후 네이버/티스토리 RSS 수집 때도 그대로 재사용 가능 (오히려 그쪽처럼 자주
   갱신되는 콘텐츠일수록 재배포 기반 방식은 안 맞았을 것)
-- 상세 설정 절차(R2 버킷 생성, Deploy Hook 발급, 시크릿 등록, 커스텀 GPT
-  액션 스키마)는 [`docs/blog-automation-setup.md`](./blog-automation-setup.md) 참고
+- 상세 설정 절차(R2 버킷, 시크릿 등록, 챗지피티 Skill 프롬프트, 승인 방법)는
+  [`docs/blog-automation-setup.md`](./blog-automation-setup.md) 참고
 
 구글 블로거(Blogger)는 국내 트래픽이 적어 채널 목록에서 제외. 스레드(Threads)는
 블로그가 아니라 SNS 채널이라 이 목록과 별개로 관리.

@@ -38,6 +38,7 @@ export const blogPosts = pgTable('blog_posts', {
     imageUrl: text('image_url').notNull(), // R2 public URL
     source: text('source').notNull().default('own-blog'), // own-blog | naver-blog | tistory
     externalUrl: text('external_url'), // RSS 소스일 때만 사용 (원문 링크)
+    status: text('status').notNull().default('draft'), // draft | published — 발행 API는 항상 draft로 저장, 승인 링크로 published 전환
     publishedAt: timestamp('published_at').defaultNow().notNull(),
     createdAt: timestamp('created_at').defaultNow().notNull(),
 });
