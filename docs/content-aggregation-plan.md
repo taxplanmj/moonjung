@@ -116,20 +116,28 @@
 
 ## 현재 프론트엔드 구현 상태
 
-- `lib/content-data.ts` — `VideoItem`/`BlogItem` 타입 정의 + 정적 더미 데이터
-  (백엔드 연결 시 이 파일의 배열을 API 호출 결과로 교체하면 됨, 컴포넌트 쪽은
-  수정할 필요 없음)
-- `components/sections/ContentSection.tsx` — 영상 줄 + 블로그 줄, 각각 가로
-  스크롤. 데스크탑 4개씩 보이는 폭으로 카드 크기 고정, 모바일은 카드가 일부
-  걸치게 해서 "더 있음"을 자연스럽게 인지시킴
+- `lib/content-data.ts` — `VideoItem`/`BlogItem` 타입 정의. `videos`는 아직
+  정적 더미 배열(유튜브 등 미연동). `blogPosts` 정적 배열은 **제거됨** —
+  블로그는 실제 데이터로 전환 완료.
+- `components/sections/ContentSection.tsx` — 영상 줄(정적 더미) + 블로그
+  줄(실제 데이터, `/api/blog/content-feed`를 클라이언트에서 fetch), 각각
+  가로 스크롤. 데스크탑 4개씩 보이는 폭으로 카드 크기 고정, 모바일은 카드가
+  일부 걸치게 해서 "더 있음"을 자연스럽게 인지시킴
+- `functions/api/blog/content-feed.ts` — 블로그 줄이 fetch하는 Function.
+  자사 블로그는 Neon에서 최신 published 2개를 직접 읽고, `fetchNaverBlogPosts()`
+  /`fetchTistoryPosts()`는 채널 정보가 없어 빈 배열을 반환하는 스텁으로
+  미리 만들어둠 — RSS 주소만 알면 그 두 함수만 채우면 되고 프론트엔드는
+  손댈 필요 없음
 
 ## 남은 작업 (백엔드)
 
-1. ✅ ~~자사 블로그: 마크다운 기반 정적 페이지 시스템 구축~~ → 완료 (Neon+R2 기반으로 구현, 위 섹션 참고)
-2. 유튜브 Data API 키 발급 → 동기화 Function 작성
-3. Neon에 콘텐츠 메타데이터 테이블 생성 (업서트 방식, 영상용)
-4. R2 버킷에 영상 썸네일 캐싱 로직 추가 (인스타/틱톡용, 자사 블로그 이미지용 버킷과는 별도 검토)
-5. 네이버/티스토리 RSS 수집 Function 작성 (최신 2개씩, 위 표 참고)
-6. `lib/content-data.ts`의 정적 배열을 API fetch로 교체 (영상 + 블로그 통합)
+1. ✅ ~~자사 블로그: 마크다운 기반 정적 페이지 시스템 구축~~ → 완료 (Neon+R2 기반)
+2. ✅ ~~`lib/content-data.ts`의 블로그 정적 배열을 API fetch로 교체~~ → 완료
+   (`functions/api/blog/content-feed.ts`)
+3. 네이버/티스토리 RSS 채널 주소 확보되는 대로 `content-feed.ts`의
+   `fetchNaverBlogPosts()`/`fetchTistoryPosts()` 구현 (최신 2개씩, 위 표 참고)
+4. 유튜브 Data API 키 발급 → 동기화 Function 작성 (영상 줄)
+5. Neon에 콘텐츠 메타데이터 테이블 생성 (업서트 방식, 영상용)
+6. R2 버킷에 영상 썸네일 캐싱 로직 추가 (인스타/틱톡용, 자사 블로그 이미지용 버킷과는 별도 검토)
 7. 인스타그램 비즈니스 계정 + 틱톡 개발자 앱 준비되는 대로 해당 채널 연동 추가
 8. 카카오/네이버 영상 API 가능 여부 조사
