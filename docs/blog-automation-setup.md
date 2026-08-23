@@ -17,11 +17,17 @@
   R2에 영구 저장하는 엔드포인트. 챗지피티가 생성한 이미지의 임시 URL은 며칠
   안에 만료되므로, 본문에 이미지를 넣으려면 반드시 이 API로 먼저 올려서 받은
   영구 URL을 마크다운에 써야 합니다.
-- `functions/blog/review.ts` — 비공개 초안 검토 페이지. `/blog/review/?key=<BLOG_API_SECRET>`
-  로 접속하면 draft 목록이 보이고, 글마다 "본문 보기"로 전체 내용을 확인할 수
-  있습니다. 관리자 로그인 없이 URL의 key 파라미터로만 접근을 제어합니다.
-- `functions/api/blog/approve.ts` — 검토 페이지의 "발행하기" 버튼이 호출하는
-  엔드포인트. 누르는 즉시 해당 글이 published로 바뀌어 공개됩니다 (원터치 승인).
+- `functions/blog/review.ts` — 비공개 **글 관리 페이지**. `/blog/review/?key=<BLOG_API_SECRET>`
+  로 접속하면 초안(draft)과 발행글(published)이 모두 보입니다. 카드마다:
+  - **수정** — `/blog/edit/[slug]/`로 이동해 제목·요약·본문·대표이미지를 바로 고침
+  - **발행하기**(초안만) — 원클릭, 즉시 공개
+  - **발행 취소**(발행글만) / **삭제**(둘 다) — 되돌리기 어려운 동작이라, 제목을
+    정확히 입력해야 버튼이 활성화되는 확인 단계가 있음(깃허브 저장소 삭제
+    확인 패턴과 동일)
+  관리자 로그인 없이 URL의 key 파라미터로만 접근을 제어합니다.
+- `functions/api/blog/approve.ts` / `unpublish.ts` / `delete.ts` / `update.ts` —
+  각각 발행 / 발행취소 / 삭제 / 수정저장 처리. 전부 같은 `BLOG_API_SECRET`으로
+  인증.
 - `functions/blog/index.ts`, `functions/blog/[slug].ts` — 공개 블로그 목록/상세
   페이지. **Next.js 정적 페이지가 아니라 Cloudflare Pages Function**으로, 요청이
   올 때마다 Neon에서 published 글만 직접 읽어 그 자리에서 HTML을 렌더링합니다.
