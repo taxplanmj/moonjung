@@ -39,6 +39,9 @@ function estimateReadTime(markdown: string): string {
     return `${minutes}분`;
 }
 
+// 네이버/티스토리가 아직 없어서 자사 블로그로 4자리를 채운다. 두 채널이
+// 추가되면 이 limit을 다시 2로 낮추고 fetchNaverBlogPosts/fetchTistoryPosts를
+// 채워서 "플랫폼당 최신 2개" 원래 계획대로 되돌리면 된다.
 async function fetchOwnBlogPosts(env: Env): Promise<FeedItem[]> {
     try {
         const sql = neon(env.DATABASE_URL);
@@ -48,7 +51,7 @@ async function fetchOwnBlogPosts(env: Env): Promise<FeedItem[]> {
             .from(blogPosts)
             .where(eq(blogPosts.status, 'published'))
             .orderBy(desc(blogPosts.publishedAt))
-            .limit(2);
+            .limit(4);
 
         return rows.map((post) => ({
             id: post.slug,

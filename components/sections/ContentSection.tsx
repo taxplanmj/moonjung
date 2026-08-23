@@ -39,7 +39,7 @@ const videoPlatformColor: Record<VideoPlatform, string> = {
 const blogPlatformColor: Record<BlogPlatform, string> = {
     'naver-blog': 'bg-emerald-50 text-emerald-600',
     tistory: 'bg-slate-100 text-slate-600',
-    'own-blog': 'bg-accent/10 text-accent-700',
+    'own-blog': 'bg-accent-50 text-accent-700',
 };
 
 const containerVariants: Variants = {
