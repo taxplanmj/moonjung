@@ -129,8 +129,8 @@ a{color:inherit;text-decoration:none;}
 .post-article{max-width:740px;margin:0 auto;padding:1.5rem 0 4rem;}
 .back-link{font-size:14px;color:#9ca3af;}
 .back-link:hover{color:var(--accent);}
-.post-title{font-size:1.875rem;font-weight:800;color:var(--primary);margin:1rem 0 1.5rem;line-height:1.3;letter-spacing:-.02em;}
-@media(min-width:640px){.post-title{font-size:2.25rem;}}
+.post-title{font-size:2rem;font-weight:900;color:var(--primary);margin:1rem 0 1.5rem;line-height:1.25;letter-spacing:-.03em;}
+@media(min-width:640px){.post-title{font-size:2.875rem;}}
 .post-hero{aspect-ratio:16/10;border-radius:1.5rem;overflow:hidden;background:#f4f6f8;margin-bottom:2rem;}
 .post-hero img{width:100%;height:100%;object-fit:cover;display:block;}
 .cta-block{margin-top:3.5rem;border-radius:1.5rem;background:linear-gradient(135deg,#1B2A4A 0%,#1e3a5f 50%,#1B2A4A 100%);padding:2.5rem 2rem;text-align:center;}
@@ -296,7 +296,7 @@ ${ogImage ? `<meta property="og:image" content="${escapeHtml(ogImage)}" />` : ''
 <link rel="icon" href="/icon-192.png" type="image/png" />
 <link rel="manifest" href="/manifest.json" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 <style>${baseStyles}</style>
 ${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
 </head>
