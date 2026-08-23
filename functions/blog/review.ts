@@ -11,7 +11,7 @@ import { drizzle } from 'drizzle-orm/neon-http';
 import { desc, eq } from 'drizzle-orm';
 import { marked } from 'marked';
 import { blogPosts } from '../../lib/db/schema';
-import { renderPage, escapeHtml } from '../_lib/blog-html';
+import { renderPage, escapeHtml, lazyLoadImages } from '../_lib/blog-html';
 
 interface Env {
     DATABASE_URL: string;
@@ -45,7 +45,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             : (
                   await Promise.all(
                       drafts.map(async (post) => {
-                          const contentHtml = await marked.parse(post.contentMarkdown);
+                          const contentHtml = lazyLoadImages(await marked.parse(post.contentMarkdown));
                           return `
         <div class="review-card">
           <div class="thumb"><img src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.title)}" loading="lazy" /></div>

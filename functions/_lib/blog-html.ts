@@ -1,6 +1,11 @@
 const SITE_NAME = '문정세무회계컨설팅';
 const KAKAO_CHANNEL_URL = 'https://pf.kakao.com';
 
+/** marked가 만든 <img> 태그에 지연 로딩·비동기 디코딩 속성을 붙인다. */
+export function lazyLoadImages(html: string): string {
+    return html.replace(/<img /g, '<img loading="lazy" decoding="async" ');
+}
+
 export function escapeHtml(input: string): string {
     return input
         .replace(/&/g, '&amp;')
