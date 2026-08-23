@@ -29,14 +29,23 @@ interface FeedItem {
     title: string;
     excerpt: string;
     platform: 'naver-blog' | 'tistory' | 'own-blog';
-    readTime: string;
+    publishedLabel: string;
     thumbnail: string;
     url: string;
 }
 
-function estimateReadTime(markdown: string): string {
-    const minutes = Math.max(1, Math.round(markdown.length / 500));
-    return `${minutes}분`;
+/**
+ * "N분 읽기" 대신 최신성을 보여준다 — 조회수는 네이버·티스토리 둘 다
+ * 공개 API로 못 받아오지만(docs/content-aggregation-plan.md 참고),
+ * 게시 시각은 세 플랫폼 다 갖고 있는 데이터라 일관되게 쓸 수 있다.
+ */
+function formatPublishedLabel(publishedAt: Date): string {
+    const days = Math.floor((Date.now() - publishedAt.getTime()) / (1000 * 60 * 60 * 24));
+    if (days <= 0) return '오늘';
+    if (days === 1) return '어제';
+    if (days < 7) return `${days}일 전`;
+    if (days < 30) return `${Math.floor(days / 7)}주 전`;
+    return `${publishedAt.getMonth() + 1}월 ${publishedAt.getDate()}일`;
 }
 
 // 네이버/티스토리가 아직 없어서 자사 블로그로 4자리를 채운다. 두 채널이
@@ -58,7 +67,7 @@ async function fetchOwnBlogPosts(env: Env): Promise<FeedItem[]> {
             title: post.title,
             excerpt: post.excerpt,
             platform: 'own-blog' as const,
-            readTime: estimateReadTime(post.contentMarkdown),
+            publishedLabel: formatPublishedLabel(new Date(post.publishedAt)),
             thumbnail: post.imageUrl,
             url: `/blog/${post.slug}/`,
         }));
@@ -68,13 +77,15 @@ async function fetchOwnBlogPosts(env: Env): Promise<FeedItem[]> {
 }
 
 // TODO: 네이버 블로그 채널을 알게 되면 RSS(https://rss.blog.naver.com/{블로그ID}.xml)를
-// fetch해서 최신 2개를 FeedItem으로 변환. platform: 'naver-blog', url: 원문 링크.
+// fetch해서 최신 2개를 FeedItem으로 변환. platform: 'naver-blog', url: 원문 링크,
+// publishedLabel: formatPublishedLabel(new Date(rss의 pubDate)).
 async function fetchNaverBlogPosts(): Promise<FeedItem[]> {
     return [];
 }
 
 // TODO: 티스토리 블로그 채널을 알게 되면 RSS(https://{블로그ID}.tistory.com/rss)를
-// fetch해서 최신 2개를 FeedItem으로 변환. platform: 'tistory', url: 원문 링크.
+// fetch해서 최신 2개를 FeedItem으로 변환. platform: 'tistory', url: 원문 링크,
+// publishedLabel: formatPublishedLabel(new Date(rss의 pubDate)).
 async function fetchTistoryPosts(): Promise<FeedItem[]> {
     return [];
 }

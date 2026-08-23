@@ -29,7 +29,7 @@ export interface BlogItem {
     title: string;
     excerpt: string;
     platform: BlogPlatform;
-    readTime: string;
+    publishedLabel: string;
     thumbnail: string;
     url: string;
 }

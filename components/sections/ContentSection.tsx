@@ -219,7 +219,7 @@ export default function ContentSection() {
                                             <p className="text-gray-500 text-sm line-clamp-2 leading-relaxed mb-3">
                                                 {post.excerpt}
                                             </p>
-                                            <span className="text-xs text-gray-400">{post.readTime} 읽기</span>
+                                            <span className="text-xs text-gray-400">{post.publishedLabel}</span>
                                         </div>
                                     </div>
                                 </motion.a>
