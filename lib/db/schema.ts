@@ -2,7 +2,7 @@
 // drizzle-orm/neon-http (no Hyperdrive needed — Neon's serverless driver
 // talks HTTP, which works fine from Cloudflare Pages Functions).
 
-import { pgTable, serial, text, timestamp, boolean } from 'drizzle-orm/pg-core';
+import { pgTable, serial, text, timestamp, boolean, integer } from 'drizzle-orm/pg-core';
 
 export const consultationLeads = pgTable('consultation_leads', {
     id: serial('id').primaryKey(),
@@ -36,6 +36,8 @@ export const blogPosts = pgTable('blog_posts', {
     excerpt: text('excerpt').notNull(),
     contentMarkdown: text('content_markdown').notNull(),
     imageUrl: text('image_url').notNull(), // R2 public URL
+    imageWidth: integer('image_width'), // 대표 이미지 실제 픽셀 폭 (레이아웃 시프트 방지용, 파싱 실패 시 null)
+    imageHeight: integer('image_height'),
     source: text('source').notNull().default('own-blog'), // own-blog | naver-blog | tistory
     externalUrl: text('external_url'), // RSS 소스일 때만 사용 (원문 링크)
     status: text('status').notNull().default('draft'), // draft | published — 발행 API는 항상 draft로 저장, 승인 링크로 published 전환

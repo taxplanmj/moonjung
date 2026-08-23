@@ -80,9 +80,9 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     const slug = body.slug?.trim() || slugify(body.title);
 
     // 1) 대표 이미지 가져와서 R2에 저장 (챗지피티가 준 임시 URL은 곧 만료되므로 즉시 fetch)
-    let imageUrl: string;
+    let image: Awaited<ReturnType<typeof uploadImageFromUrl>>;
     try {
-        imageUrl = await uploadImageFromUrl(env.BLOG_IMAGES, env.BLOG_IMAGES_PUBLIC_BASE_URL, body.imageUrl, 'blog/thumb');
+        image = await uploadImageFromUrl(env.BLOG_IMAGES, env.BLOG_IMAGES_PUBLIC_BASE_URL, body.imageUrl, 'blog/thumb');
     } catch (err) {
         return new Response(
             JSON.stringify({ error: `이미지 저장 실패: ${err instanceof Error ? err.message : String(err)}` }),
@@ -99,7 +99,9 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
             title: body.title,
             excerpt: body.excerpt,
             contentMarkdown: body.contentMarkdown,
-            imageUrl,
+            imageUrl: image.url,
+            imageWidth: image.width,
+            imageHeight: image.height,
             source: 'own-blog',
             status: 'draft',
         });

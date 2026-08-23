@@ -11,7 +11,11 @@
  * POST /api/blog/upload-image
  * Authorization: Bearer <BLOG_API_SECRET>
  * body: { imageUrl: string }   // 챗지피티가 생성한 이미지의 임시 URL
- * 응답: { url: string }        // R2에 저장된 영구 공개 URL
+ * 응답: { url: string, width: number|null, height: number|null }
+ *   width/height는 PNG·WebP만 파싱 가능 — 다른 포맷이거나 실패 시 null.
+ *   width/height가 있으면 본문에는 마크다운 대신
+ *   <img src="url" width="W" height="H" alt="설명" /> 형태로 직접 써서
+ *   레이아웃 시프트를 막을 것. null이면 ![설명](url) 마크다운으로 대체.
  */
 
 import { uploadImageFromUrl } from '../../_lib/r2-image';
@@ -42,8 +46,8 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
     }
 
     try {
-        const url = await uploadImageFromUrl(env.BLOG_IMAGES, env.BLOG_IMAGES_PUBLIC_BASE_URL, body.imageUrl, 'blog/inline');
-        return new Response(JSON.stringify({ url }), {
+        const image = await uploadImageFromUrl(env.BLOG_IMAGES, env.BLOG_IMAGES_PUBLIC_BASE_URL, body.imageUrl, 'blog/inline');
+        return new Response(JSON.stringify(image), {
             status: 200,
             headers: { 'Content-Type': 'application/json' },
         });

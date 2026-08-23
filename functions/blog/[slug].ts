@@ -3,9 +3,8 @@
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { and, eq } from 'drizzle-orm';
-import { marked } from 'marked';
 import { blogPosts } from '../../lib/db/schema';
-import { renderPage, escapeHtml, lazyLoadImages } from '../_lib/blog-html';
+import { renderPage, escapeHtml, renderPostBody } from '../_lib/blog-html';
 
 interface Env {
     DATABASE_URL: string;
@@ -13,7 +12,7 @@ interface Env {
 
 export const onRequestGet: PagesFunction<Env> = async (context) => {
     const { env, params } = context;
-    const slug = String(params.slug);
+    const slug = decodeURIComponent(String(params.slug));
 
     let post: typeof blogPosts.$inferSelect | undefined;
     try {
@@ -46,13 +45,17 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
         });
     }
 
-    const contentHtml = lazyLoadImages(await marked.parse(post.contentMarkdown));
+    const contentHtml = await renderPostBody(post.contentMarkdown);
+    const heroDimensions =
+        post.imageWidth && post.imageHeight
+            ? ` width="${post.imageWidth}" height="${post.imageHeight}"`
+            : '';
 
     const bodyHtml = `
 <article class="post-article">
   <a href="/blog/" class="back-link">← 블로그 목록</a>
   <h1 class="post-title">${escapeHtml(post.title)}</h1>
-  <div class="post-hero"><img src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.title)}" loading="eager" fetchpriority="high" /></div>
+  <div class="post-hero"><img src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.title)}" loading="eager" fetchpriority="high"${heroDimensions} /></div>
   <div class="post-body">${contentHtml}</div>
   <div class="cta-block">
     <p class="title">이런 고민, 있으신가요?</p>

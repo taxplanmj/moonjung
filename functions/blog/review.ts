@@ -9,9 +9,8 @@
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { desc, eq } from 'drizzle-orm';
-import { marked } from 'marked';
 import { blogPosts } from '../../lib/db/schema';
-import { renderPage, escapeHtml, lazyLoadImages } from '../_lib/blog-html';
+import { renderPage, escapeHtml, renderPostBody } from '../_lib/blog-html';
 
 interface Env {
     DATABASE_URL: string;
@@ -45,23 +44,25 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
             : (
                   await Promise.all(
                       drafts.map(async (post) => {
-                          const contentHtml = lazyLoadImages(await marked.parse(post.contentMarkdown));
+                          const contentHtml = await renderPostBody(post.contentMarkdown);
+                          const dimensions =
+                              post.imageWidth && post.imageHeight
+                                  ? ` width="${post.imageWidth}" height="${post.imageHeight}"`
+                                  : '';
                           return `
         <div class="review-card">
-          <div class="thumb"><img src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.title)}" loading="lazy" /></div>
-          <div class="body">
-            <h2>${escapeHtml(post.title)}</h2>
-            <p>${escapeHtml(post.excerpt)}</p>
-            <details>
-              <summary>본문 보기</summary>
-              <div class="post-body">${contentHtml}</div>
-            </details>
-            <form method="POST" action="/api/blog/approve">
-              <input type="hidden" name="slug" value="${escapeHtml(post.slug)}" />
-              <input type="hidden" name="key" value="${escapeHtml(key)}" />
-              <button type="submit" class="cta-btn">발행하기</button>
-            </form>
-          </div>
+          <h2>${escapeHtml(post.title)}</h2>
+          <div class="thumb"><img src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.title)}" loading="lazy"${dimensions} /></div>
+          <p class="excerpt">${escapeHtml(post.excerpt)}</p>
+          <details>
+            <summary>본문 보기</summary>
+            <div class="post-body">${contentHtml}</div>
+          </details>
+          <form method="POST" action="/api/blog/approve">
+            <input type="hidden" name="slug" value="${escapeHtml(post.slug)}" />
+            <input type="hidden" name="key" value="${escapeHtml(key)}" />
+            <button type="submit" class="cta-btn">발행하기</button>
+          </form>
         </div>`;
                       })
                   )
