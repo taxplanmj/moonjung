@@ -189,7 +189,6 @@ a{color:inherit;text-decoration:none;}
 .review-page{max-width:740px;margin:0 auto;}
 .review-list{display:flex;flex-direction:column;gap:1.5rem;}
 .review-card{border:1px solid #f3f4f6;border-radius:1.25rem;padding:1.25rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);}
-.review-card h2{font-size:1.25rem;font-weight:700;color:#111827;margin:0 0 1rem;line-height:1.4;}
 .review-card .thumb{width:100%;aspect-ratio:16/10;border-radius:.75rem;overflow:hidden;background:#f4f6f8;margin-bottom:1rem;}
 .review-card .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
 .review-card .excerpt{font-size:14px;color:var(--text-muted);margin:0 0 1rem;}

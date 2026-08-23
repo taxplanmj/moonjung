@@ -51,7 +51,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
                                   : '';
                           return `
         <div class="review-card">
-          <h2>${escapeHtml(post.title)}</h2>
+          <h2 class="post-title">${escapeHtml(post.title)}</h2>
           <div class="thumb"><img src="${escapeHtml(post.imageUrl)}" alt="${escapeHtml(post.title)}" loading="lazy"${dimensions} /></div>
           <p class="excerpt">${escapeHtml(post.excerpt)}</p>
           <details>
