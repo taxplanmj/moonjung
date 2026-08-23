@@ -185,10 +185,11 @@ a{color:inherit;text-decoration:none;}
 .post-body th{background:var(--primary);color:#fff;font-weight:600;padding:12px 14px;text-align:left;white-space:nowrap;}
 .post-body td{padding:12px 14px;border-bottom:1px solid var(--border);}
 
-/* Draft review */
+/* Draft review / 글 관리 */
 .review-page{max-width:740px;margin:0 auto;}
+.section-heading{font-size:1.1rem;font-weight:700;color:var(--primary);margin:2.5rem 0 1rem;}
 .review-list{display:flex;flex-direction:column;gap:1.5rem;}
-.review-card{border:1px solid #f3f4f6;border-radius:1.25rem;padding:1.25rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.review-card{position:relative;border:1px solid #f3f4f6;border-radius:1.25rem;padding:1.25rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);}
 .review-card .thumb{border-radius:.75rem;overflow:hidden;background:#f4f6f8;margin-bottom:1rem;}
 .review-card .thumb img{width:100%;height:auto;display:block;}
 .review-card .excerpt{font-size:14px;color:var(--text-muted);margin:0 0 1rem;}
@@ -197,6 +198,28 @@ a{color:inherit;text-decoration:none;}
 .review-card details .post-body{margin-top:1rem;}
 .review-card form{margin:0;}
 .review-card .cta-btn{border:none;cursor:pointer;font-family:inherit;width:100%;}
+.status-badge{display:inline-block;font-size:11px;font-weight:700;padding:.25rem .6rem;border-radius:1rem;margin-bottom:.6rem;}
+.status-draft{background:#F3F4F6;color:#6B7280;}
+.status-published{background:#EAF6FB;color:#0F6E96;}
+.card-actions{display:flex;gap:.75rem;}
+.card-actions .cta-btn,.card-actions form{flex:1;}
+.secondary-btn{background:#fff;color:var(--primary);border:1px solid var(--border);text-align:center;}
+
+/* 삭제/발행취소 확인 UI */
+.danger-details{margin-top:1rem;border-top:1px solid var(--border);padding-top:1rem;}
+.danger-details summary{color:#B91C1C;font-weight:600;font-size:13px;}
+.confirm-hint{font-size:13px;color:var(--text-muted);margin:.6rem 0;}
+.confirm-input{width:100%;padding:.6rem .8rem;border:1px solid var(--border);border-radius:.5rem;font-size:14px;margin-bottom:.6rem;box-sizing:border-box;}
+.danger-btn{width:100%;padding:.6rem;border:none;border-radius:.5rem;background:#DC2626;color:#fff;font-weight:600;font-size:14px;cursor:pointer;}
+.danger-btn:disabled{background:#F3D9D9;color:#fff;cursor:not-allowed;}
+
+/* 수정 폼 */
+.edit-form{display:flex;flex-direction:column;gap:.4rem;margin-top:1.5rem;}
+.edit-form label{font-size:13px;font-weight:600;color:var(--primary);margin-top:1rem;}
+.edit-form input[type="text"],.edit-form textarea{width:100%;padding:.7rem .9rem;border:1px solid var(--border);border-radius:.6rem;font-size:14px;font-family:inherit;box-sizing:border-box;resize:vertical;}
+.edit-form textarea{line-height:1.6;}
+.field-hint{font-size:12px;color:var(--text-muted);margin:0;}
+.edit-form .cta-btn{border:none;cursor:pointer;font-family:inherit;margin-top:1.5rem;align-self:flex-start;padding:.8rem 2rem;}
 `;
 
 const navLinks = [
