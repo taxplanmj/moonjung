@@ -53,13 +53,50 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     <label for="imageUrl">대표 이미지 URL</label>
     <input type="text" id="imageUrl" name="imageUrl" value="${escapeHtml(post.imageUrl)}" required />
     <p class="field-hint">그대로 두면 재업로드 안 함. 새 임시 URL을 넣으면 저장 시 R2에 새로 업로드됩니다.</p>
+    <img id="imageUrlPreview" class="thumb-preview" src="${escapeHtml(post.imageUrl)}" alt="대표 이미지 미리보기" />
 
     <label for="contentMarkdown">본문(마크다운)</label>
     <textarea id="contentMarkdown" name="contentMarkdown" rows="24" required>${escapeHtml(post.contentMarkdown)}</textarea>
 
     <button type="submit" class="cta-btn">저장</button>
   </form>
-</div>`;
+
+  <div class="preview-pane">
+    <h2 class="section-heading">미리보기 (실제 글과 동일하게 렌더링됨)</h2>
+    <div id="markdownPreview" class="post-body"></div>
+  </div>
+</div>
+<script>
+(function () {
+  var textarea = document.getElementById('contentMarkdown');
+  var preview = document.getElementById('markdownPreview');
+  var key = document.querySelector('input[name="key"]').value;
+  var timer;
+
+  function renderPreview() {
+    fetch('/api/blog/preview', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ contentMarkdown: textarea.value, key: key }),
+    })
+      .then(function (r) { return r.json(); })
+      .then(function (data) { preview.innerHTML = data.html || ''; })
+      .catch(function () {});
+  }
+
+  textarea.addEventListener('input', function () {
+    clearTimeout(timer);
+    timer = setTimeout(renderPreview, 500);
+  });
+  renderPreview();
+
+  var imageInput = document.getElementById('imageUrl');
+  var imagePreview = document.getElementById('imageUrlPreview');
+  imageInput.addEventListener('input', function () {
+    imagePreview.src = imageInput.value;
+  });
+})();
+</script>`;
 
     const html = renderPage({
         title: `수정 - ${post.title}`,

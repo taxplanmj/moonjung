@@ -219,7 +219,9 @@ a{color:inherit;text-decoration:none;}
 .edit-form input[type="text"],.edit-form textarea{width:100%;padding:.7rem .9rem;border:1px solid var(--border);border-radius:.6rem;font-size:14px;font-family:inherit;box-sizing:border-box;resize:vertical;}
 .edit-form textarea{line-height:1.6;}
 .field-hint{font-size:12px;color:var(--text-muted);margin:0;}
+.thumb-preview{width:100%;max-width:280px;height:auto;border-radius:.6rem;background:#f4f6f8;margin-top:.5rem;}
 .edit-form .cta-btn{border:none;cursor:pointer;font-family:inherit;margin-top:1.5rem;align-self:flex-start;padding:.8rem 2rem;}
+.preview-pane{margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border);}
 `;
 
 const navLinks = [
