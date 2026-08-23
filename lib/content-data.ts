@@ -1,10 +1,11 @@
 /**
  * 콘텐츠 섹션(영상+블로그)의 데이터 레이어.
  *
- * 지금은 정적 더미 데이터지만, 실제로는 여러 채널에서 자동 수집한
- * 콘텐츠 중 조회수 상위 항목을 보여주는 게 목표입니다.
- * 백엔드 연결 시 이 파일의 videos/blogPosts 배열을 API 호출 결과로
- * 교체하면 되고, 컴포넌트(ContentSection.tsx)는 손댈 필요 없습니다.
+ * 영상(videos)은 아직 정적 더미 데이터입니다 — 유튜브 API 등 채널 연동이
+ * 안 돼서. 블로그는 실제 데이터로 전환 완료: ContentSection.tsx가
+ * /api/blog/content-feed(functions/api/blog/content-feed.ts)를 클라이언트에서
+ * fetch해서 채우므로, 여기엔 더 이상 blogPosts 정적 배열이 없습니다 — 타입
+ * (BlogItem/BlogPlatform)만 공유합니다.
  *
  * 전체 설계는 docs/content-aggregation-plan.md 참고.
  */
@@ -106,64 +107,6 @@ export const videos: VideoItem[] = [
         platform: 'youtube',
         duration: '1:05',
         views: '2.7만',
-        thumbnail: '/images/thumb-6.png',
-        url: '#',
-    },
-];
-
-/** TODO: 백엔드 연결 시 네이버블로그/티스토리/자사블로그 글 목록으로 교체 */
-export const blogPosts: BlogItem[] = [
-    {
-        id: 'b1',
-        title: '이커머스 셀러가 놓치기 쉬운 부가세 신고 체크리스트',
-        excerpt: '분기마다 헷갈리는 부가세 신고, 이 5가지만 확인하세요.',
-        platform: 'naver-blog',
-        readTime: '5분',
-        thumbnail: '/images/thumb-1.png',
-        url: '#',
-    },
-    {
-        id: 'b2',
-        title: '흑자인데 통장은 마이너스? 돈맥경화 진단법',
-        excerpt: '정산 지연과 재고 비용이 만드는 현금흐름 함정 파헤치기',
-        platform: 'tistory',
-        readTime: '7분',
-        thumbnail: '/images/thumb-2.png',
-        url: '#',
-    },
-    {
-        id: 'b3',
-        title: '정책자금 신청, 이 서류부터 준비하세요',
-        excerpt: '경영지도사가 알려주는 정책자금 신청 전 필수 체크포인트',
-        platform: 'naver-blog',
-        readTime: '6분',
-        thumbnail: '/images/thumb-3.png',
-        url: '#',
-    },
-    {
-        id: 'b4',
-        title: '간이과세자에서 일반과세자로, 언제 전환해야 할까',
-        excerpt: '매출 구간별 전환 타이밍과 세금 영향 비교',
-        platform: 'own-blog',
-        readTime: '4분',
-        thumbnail: '/images/thumb-4.png',
-        url: '/consultation/',
-    },
-    {
-        id: 'b5',
-        title: '반품·교환 비용, 이익률 계산에 넣고 계신가요?',
-        excerpt: '실제 수익성을 갉아먹는 숨은 비용 짚어보기',
-        platform: 'tistory',
-        readTime: '5분',
-        thumbnail: '/images/thumb-5.png',
-        url: '#',
-    },
-    {
-        id: 'b6',
-        title: '절세와 탈세, 정확히 뭐가 다를까',
-        excerpt: '합법적으로 세금을 아끼는 방법과 노하우 정리',
-        platform: 'naver-blog',
-        readTime: '6분',
         thumbnail: '/images/thumb-6.png',
         url: '#',
     },

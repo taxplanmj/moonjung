@@ -3,27 +3,27 @@
 /**
  * 영상 + 블로그 콘텐츠를 각각 가로 스크롤 줄로 보여주는 섹션.
  *
- * 지금은 lib/content-data.ts의 정적 더미 데이터로 렌더링되지만,
- * 최종적으로는 여러 채널(유튜브·틱톡·인스타·카카오·네이버 / 네이버블로그·
- * 티스토리·자사블로그)에서 자동 수집한 콘텐츠 중 조회수 상위 항목을
- * 보여주는 게 목표입니다. 백엔드 연결 방법은 docs/content-aggregation-plan.md
- * 참고 — lib/content-data.ts의 배열만 API 호출로 교체하면 이 컴포넌트는
- * 수정할 필요 없습니다.
+ * 영상 줄은 아직 lib/content-data.ts의 정적 더미 데이터(유튜브 API 등
+ * 미연동, docs/content-aggregation-plan.md 참고). 블로그 줄은 실제
+ * 데이터입니다 — /api/blog/content-feed(Cloudflare Pages Function)에서
+ * 자사 블로그(+ 나중에 네이버·티스토리) 최신 글을 클라이언트에서 fetch해서
+ * 채웁니다. 정적 사이트라 빌드 시점에 구울 수 없어서 클라이언트 fetch로
+ * 처리 — /blog와 동일한 이유(재배포 없이 항상 최신).
  *
  * 가로 스크롤 방식을 쓴 이유: 콘텐츠가 계속 늘어나는 구조라, 세로로
  * 쌓으면 모바일에서 페이지 길이가 무한정 길어짐. 가로 스크롤이면 콘텐츠가
  * 몇 개든 섹션 높이가 고정됨.
  */
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Play, Clock, Sparkles, BookOpen, ArrowRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { motion, Variants } from 'framer-motion';
 import {
     videos,
-    blogPosts,
     videoPlatformLabels,
     blogPlatformLabels,
+    type BlogItem,
     type VideoPlatform,
     type BlogPlatform,
 } from '@/lib/content-data';
@@ -61,6 +61,15 @@ function ScrollRow({ children }: { children: React.ReactNode }) {
 }
 
 export default function ContentSection() {
+    const [blogItems, setBlogItems] = useState<BlogItem[]>([]);
+
+    useEffect(() => {
+        fetch('/api/blog/content-feed')
+            .then((res) => res.json() as Promise<BlogItem[]>)
+            .then((data) => setBlogItems(data))
+            .catch(() => setBlogItems([]));
+    }, []);
+
     return (
         <section id="shorts" className="relative section-padding overflow-hidden">
             {/* Background */}
@@ -165,6 +174,7 @@ export default function ContentSection() {
                 </div>
 
                 {/* Blog row */}
+                {blogItems.length > 0 && (
                 <div>
                     <div className="flex items-center gap-2 mb-5">
                         <BookOpen className="h-4 w-4 text-primary" />
@@ -177,7 +187,7 @@ export default function ContentSection() {
                         viewport={{ once: true, margin: '-100px' }}
                     >
                         <ScrollRow>
-                            {blogPosts.map((post) => (
+                            {blogItems.map((post) => (
                                 <motion.a
                                     key={post.id}
                                     href={post.url}
@@ -217,6 +227,7 @@ export default function ContentSection() {
                         </ScrollRow>
                     </motion.div>
                 </div>
+                )}
             </div>
         </section>
     );
