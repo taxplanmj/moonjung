@@ -27,6 +27,7 @@
 import { neon } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import { blogPosts } from '../../../lib/db/schema';
+import { uploadImageFromUrl } from '../../_lib/r2-image';
 
 interface Env {
     BLOG_API_SECRET: string;
@@ -78,18 +79,10 @@ export const onRequestPost: PagesFunction<Env> = async (context) => {
 
     const slug = body.slug?.trim() || slugify(body.title);
 
-    // 1) 이미지 가져와서 R2에 저장 (챗지피티가 준 임시 URL은 곧 만료되므로 즉시 fetch)
+    // 1) 대표 이미지 가져와서 R2에 저장 (챗지피티가 준 임시 URL은 곧 만료되므로 즉시 fetch)
     let imageUrl: string;
     try {
-        const imageRes = await fetch(body.imageUrl);
-        if (!imageRes.ok) throw new Error(`이미지 다운로드 실패: ${imageRes.status}`);
-        const contentType = imageRes.headers.get('content-type') || 'image/png';
-        const ext = contentType.includes('jpeg') ? 'jpg' : contentType.includes('webp') ? 'webp' : 'png';
-        const key = `blog/${slug}.${ext}`;
-        await env.BLOG_IMAGES.put(key, imageRes.body, {
-            httpMetadata: { contentType },
-        });
-        imageUrl = `${env.BLOG_IMAGES_PUBLIC_BASE_URL}/${key}`;
+        imageUrl = await uploadImageFromUrl(env.BLOG_IMAGES, env.BLOG_IMAGES_PUBLIC_BASE_URL, body.imageUrl, 'blog/thumb');
     } catch (err) {
         return new Response(
             JSON.stringify({ error: `이미지 저장 실패: ${err instanceof Error ? err.message : String(err)}` }),
