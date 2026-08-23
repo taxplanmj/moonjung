@@ -73,6 +73,10 @@ a{color:inherit;text-decoration:none;}
 .post-body a{color:var(--accent);text-decoration:underline;}
 .post-body ul,.post-body ol{margin:0 0 1.25rem;padding-left:1.5rem;}
 .post-body strong{color:#111827;}
+.post-body img{max-width:100%;height:auto;display:block;margin:1.5rem auto;border-radius:.75rem;}
+.post-body table{width:100%;border-collapse:collapse;margin:0 0 1.25rem;font-size:14px;}
+.post-body th,.post-body td{border:1px solid var(--border);padding:.5rem .75rem;text-align:left;}
+.post-body th{background:#f9fafb;font-weight:600;}
 .cta-block{margin-top:3.5rem;border-radius:1.5rem;background:linear-gradient(135deg,#1B2A4A 0%,#1e3a5f 50%,#1B2A4A 100%);padding:2.5rem 2rem;text-align:center;}
 .cta-block p.title{color:#fff;font-weight:700;font-size:1.25rem;margin:0 0 .5rem;}
 .cta-block p.desc{color:rgba(255,255,255,.6);font-size:14px;margin:0 0 1.5rem;}
@@ -81,7 +85,7 @@ a{color:inherit;text-decoration:none;}
 
 /* Draft review */
 .review-list{display:flex;flex-direction:column;gap:1.5rem;max-width:42rem;}
-.review-card{display:flex;gap:1.25rem;border:1px solid #f3f4f6;border-radius:1.25rem;padding:1.25rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.review-card{display:flex;align-items:flex-start;gap:1.25rem;border:1px solid #f3f4f6;border-radius:1.25rem;padding:1.25rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);}
 .review-card .thumb{width:140px;flex-shrink:0;aspect-ratio:16/10;border-radius:.75rem;overflow:hidden;background:#f4f6f8;}
 .review-card .thumb img{width:100%;height:100%;object-fit:cover;display:block;}
 .review-card .body{flex:1;min-width:0;}
