@@ -84,7 +84,8 @@ a{color:inherit;text-decoration:none;}
 .not-found{max-width:32rem;margin:6rem auto;text-align:center;color:var(--text-muted);}
 
 /* Draft review */
-.review-list{display:flex;flex-direction:column;gap:1.5rem;max-width:42rem;}
+.review-page{max-width:42rem;margin:0 auto;}
+.review-list{display:flex;flex-direction:column;gap:1.5rem;}
 .review-card{display:flex;align-items:flex-start;gap:1.25rem;border:1px solid #f3f4f6;border-radius:1.25rem;padding:1.25rem;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.06);}
 .review-card .thumb{width:140px;flex-shrink:0;aspect-ratio:16/10;border-radius:.75rem;overflow:hidden;background:#f4f6f8;}
 .review-card .thumb img{width:100%;height:100%;object-fit:cover;display:block;}

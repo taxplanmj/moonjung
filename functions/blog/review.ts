@@ -68,9 +68,11 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
               ).join('');
 
     const bodyHtml = `
-<h1 class="page-title">초안 검토</h1>
-<p class="page-sub">발행하면 즉시 공개됩니다.</p>
-<div class="review-list">${cardsHtml}</div>
+<div class="review-page">
+  <h1 class="page-title">초안 검토</h1>
+  <p class="page-sub">발행하면 즉시 공개됩니다.</p>
+  <div class="review-list">${cardsHtml}</div>
+</div>
 `;
 
     const html = renderPage({
