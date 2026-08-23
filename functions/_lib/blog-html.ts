@@ -168,9 +168,10 @@ interface PageOptions {
     ogImage?: string;
     canonicalPath: string;
     bodyHtml: string;
+    jsonLd?: Record<string, unknown>;
 }
 
-export function renderPage({ title, description, ogImage, canonicalPath, bodyHtml }: PageOptions): string {
+export function renderPage({ title, description, ogImage, canonicalPath, bodyHtml, jsonLd }: PageOptions): string {
     const fullTitle = `${title} | ${SITE_NAME}`;
     const canonicalUrl = `https://moonjung.pages.dev${canonicalPath}`;
     return `<!doctype html>
@@ -191,6 +192,7 @@ ${ogImage ? `<meta property="og:image" content="${escapeHtml(ogImage)}" />` : ''
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 <style>${baseStyles}</style>
+${jsonLd ? `<script type="application/ld+json">${JSON.stringify(jsonLd)}</script>` : ''}
 </head>
 <body>
 ${renderHeader()}

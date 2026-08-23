@@ -61,12 +61,24 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   </div>
 </article>`;
 
+    const canonicalUrl = `https://moonjung.pages.dev/blog/${slug}/`;
     const html = renderPage({
         title: post.title,
         description: post.excerpt,
         ogImage: post.imageUrl,
         canonicalPath: `/blog/${slug}/`,
         bodyHtml,
+        jsonLd: {
+            '@context': 'https://schema.org',
+            '@type': 'BlogPosting',
+            headline: post.title,
+            description: post.excerpt,
+            image: post.imageUrl,
+            datePublished: new Date(post.publishedAt).toISOString(),
+            mainEntityOfPage: canonicalUrl,
+            author: { '@type': 'Organization', name: '문정세무회계컨설팅' },
+            publisher: { '@type': 'Organization', name: '문정세무회계컨설팅' },
+        },
     });
 
     return new Response(html, {
