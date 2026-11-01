@@ -30,7 +30,7 @@ export default function Footer() {
                             </div>
                         </div>
                         <p className="text-white/60 text-sm leading-relaxed mb-6 max-w-md">
-                            이커머스 셀러의 성장을 함께하는 세무·회계·컨설팅 전문 파트너.
+                            서울 송파구 문정동 세무회계 사무소 문정세무회계컨설팅. 권민수 대표 세무사와 함께 이커머스 셀러의 성장을 돕는 세무·회계·컨설팅 전문 파트너.
                             세무신고부터 정책자금, 법인전환까지 원스톱으로 지원합니다.
                         </p>
 

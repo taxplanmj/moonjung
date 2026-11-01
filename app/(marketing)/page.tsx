@@ -7,11 +7,24 @@ import TeamSection from '@/components/sections/TeamSection';
 import PricingSection from '@/components/sections/PricingSection';
 import FAQSection from '@/components/sections/FAQSection';
 import { faqs } from '@/lib/faq-data';
-import { getFAQJsonLd } from '@/lib/seo';
+import type { Metadata } from 'next';
+import { getFAQJsonLd, getLocalBusinessJsonLd, getWebSiteJsonLd } from '@/lib/seo';
+
+export const metadata: Metadata = {
+    alternates: { canonical: '/' },
+};
 
 export default function MarketingPage() {
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(getWebSiteJsonLd()) }}
+            />
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(getLocalBusinessJsonLd()) }}
+            />
             <script
                 type="application/ld+json"
                 dangerouslySetInnerHTML={{ __html: JSON.stringify(getFAQJsonLd(faqs)) }}

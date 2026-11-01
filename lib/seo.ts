@@ -32,26 +32,45 @@ export function generateSEOMeta({ title, description, path = '', ogImage }: SEOP
     };
 }
 
-// JSON-LD: LocalBusiness
+// JSON-LD: 사이트 이름(WebSite) — 검색결과에 표시될 이름과 대체 이름
+export function getWebSiteJsonLd() {
+    return {
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        name: '문정세무회계컨설팅',
+        alternateName: ['문정세무회계', '문정세무', '문정회계', '문정동 세무'],
+        url: SITE_URL,
+    };
+}
+
+// JSON-LD: 세무회계 사무소(AccountingService) — 상호·로고·대표·위치
 export function getLocalBusinessJsonLd() {
     return {
         '@context': 'https://schema.org',
         '@type': 'AccountingService',
+        '@id': `${SITE_URL}/#organization`,
         name: '문정세무회계컨설팅',
-        description: '이커머스 셀러 전문 세무·회계·컨설팅 서비스',
+        alternateName: ['문정세무회계', '문정세무', '문정회계'],
+        description:
+            '서울 송파구 문정동 세무회계 사무소. 권민수 대표 세무사가 이커머스 셀러 기장·세무신고·절세·정책자금 컨설팅을 제공합니다.',
         url: SITE_URL,
+        logo: `${SITE_URL}/icon-512.png`,
+        image: `${SITE_URL}/icon-512.png`,
         telephone: '02-402-2353',
         email: 'taxplanmj@gmail.com',
+        founder: { '@type': 'Person', name: '권민수', jobTitle: '세무사' },
         address: {
             '@type': 'PostalAddress',
             streetAddress: '법원로11길 11 문정현대지식산업센터 1차 A동 609~611호',
-            addressLocality: '송파구',
+            addressLocality: '송파구 문정동',
             addressRegion: '서울특별시',
             postalCode: '05836',
             addressCountry: 'KR',
         },
-        areaServed: { '@type': 'Country', name: 'KR' },
-        priceRange: '₩₩',
+        areaServed: [
+            { '@type': 'Place', name: '서울특별시 송파구 문정동' },
+            { '@type': 'Country', name: 'KR' },
+        ],
     };
 }
 
