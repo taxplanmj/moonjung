@@ -15,7 +15,7 @@ interface Env {
     DATABASE_URL: string;
 }
 
-const SITE_URL = 'https://moonjung.pages.dev';
+const SITE_URL = 'https://taxplanmj.com';
 
 const staticPaths = ['/', '/consultation/', '/blog/', '/privacy/', '/terms/'];
 

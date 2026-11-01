@@ -303,7 +303,7 @@ interface PageOptions {
 
 export function renderPage({ title, description, ogImage, canonicalPath, bodyHtml, jsonLd }: PageOptions): string {
     const fullTitle = `${title} | ${SITE_NAME}`;
-    const canonicalUrl = `https://moonjung.pages.dev${canonicalPath}`;
+    const canonicalUrl = `https://taxplanmj.com${canonicalPath}`;
     return `<!doctype html>
 <html lang="ko">
 <head>

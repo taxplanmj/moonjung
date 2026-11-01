@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /blog/review/
 
-Sitemap: https://moonjung.pages.dev/sitemap.xml
+Sitemap: https://taxplanmj.com/sitemap.xml

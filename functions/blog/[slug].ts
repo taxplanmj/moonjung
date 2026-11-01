@@ -64,7 +64,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
   </div>
 </article>`;
 
-    const canonicalUrl = `https://moonjung.pages.dev/blog/${slug}/`;
+    const canonicalUrl = `https://taxplanmj.com/blog/${slug}/`;
     const html = renderPage({
         title: post.title,
         description: post.excerpt,

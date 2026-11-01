@@ -134,7 +134,7 @@
 >   둘 다 이미지 속 텍스트는 못 읽는다고 가정할 것). 이미지는 텍스트 내용을
 >   시각적으로 "강조·요약"하는 역할이지 텍스트를 대체하는 역할이 아니다
 > - **중요**: 본문에 넣는 이미지 하나하나마다(10~15장 전부 각각) 먼저
->   `POST https://moonjung.pages.dev/api/blog/upload-image`
+>   `POST https://taxplanmj.com/api/blog/upload-image`
 >   (헤더 동일, 바디 `{"imageUrl": "<생성한 이미지의 임시 URL>"}`, 응답
 >   `{"url": "<영구 URL>"}`)를 호출해서 받은 영구 URL을 써야 한다. 챗지피티가
 >   준 임시 URL을 마크다운에 그대로 넣으면 며칠 안에 링크가 깨진다. 대표
@@ -147,7 +147,7 @@
 >
 > **등록 방법**: 아래 API를 호출한다. 이 글은 바로 공개되지 않고 초안으로
 > 등록되며, 사람이 검토 후 승인해야 실제로 게시된다.
-> - `POST https://moonjung.pages.dev/api/blog/publish`
+> - `POST https://taxplanmj.com/api/blog/publish`
 > - 헤더: `Authorization: Bearer <내가 알려줄 키>`, `Content-Type: application/json`
 > - 바디(JSON): `title`(string), `excerpt`(string, 1~2문장 요약),
 >   `contentMarkdown`(string, 마크다운 본문 — 본문 이미지는 위 upload-image로
@@ -170,7 +170,7 @@ Skill이 만들어지면:
    확인 (공식 권장 방식)
 
 ### 5. 초안 승인
-새 초안이 등록되면 `https://moonjung.pages.dev/blog/review/?key=<BLOG_API_SECRET>`
+새 초안이 등록되면 `https://taxplanmj.com/blog/review/?key=<BLOG_API_SECRET>`
 에 접속 → 제목/요약/썸네일 확인 → "본문 보기"로 전체 내용 확인 → 문제없으면
 **"발행하기"** 버튼 한 번 → 즉시 공개. 이 링크는 검토 대기 중인 글이 있을 때마다
 직접 들어가서 확인하는 방식이라, 별도 알림(이메일 등)은 없습니다 — 필요해지면
@@ -192,7 +192,7 @@ Skill이 만들어지면:
 ### 대표님이 직접 하셔야 하는 것 (계정 소유자만 가능)
 
 1. **네이버 서치어드바이저** (searchadvisor.naver.com) 사이트 등록 → 소유
-   확인(HTML 태그 또는 파일 방식) → 사이트맵 제출: `https://moonjung.pages.dev/sitemap.xml`
+   확인(HTML 태그 또는 파일 방식) → 사이트맵 제출: `https://taxplanmj.com/sitemap.xml`
 2. **구글 서치 콘솔** (search.google.com/search-console) 속성 등록 → 소유
    확인 → 동일한 사이트맵 URL 제출
 3. 등록 직후엔 색인까지 며칠~몇 주 걸릴 수 있습니다 (특히 네이버는 신규
@@ -204,4 +204,4 @@ Skill이 만들어지면:
 1. Skill을 통해 초안 하나 등록
 2. `/blog/review/?key=...`에서 뜨는지 확인
 3. "발행하기" 눌러서 `/blog/`에 반영되는지 확인 (재배포 없이 즉시 반영)
-4. `https://moonjung.pages.dev/sitemap.xml`에 정상적으로 뜨는지 확인
+4. `https://taxplanmj.com/sitemap.xml`에 정상적으로 뜨는지 확인
