@@ -45,7 +45,7 @@ export const onRequestGet: PagesFunction<Env> = async (context) => {
     const postEntries = posts
         .map(
             (post) =>
-                `  <url><loc>${escapeXml(`${SITE_URL}/blog/${post.slug}/`)}</loc><lastmod>${new Date(post.publishedAt).toISOString().slice(0, 10)}</lastmod></url>`
+                `  <url><loc>${escapeXml(`${SITE_URL}/blog/${encodeURIComponent(post.slug)}/`)}</loc><lastmod>${new Date(post.publishedAt).toISOString().slice(0, 10)}</lastmod></url>`
         )
         .join('\n');
 
