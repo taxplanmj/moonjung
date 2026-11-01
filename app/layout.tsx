@@ -35,6 +35,9 @@ export const metadata: Metadata = {
         '온라인 셀러 기장',
         '정책자금',
     ],
+    verification: {
+        other: { 'naver-site-verification': '4c608cdb26ecfe84607c64529aea88a376d91ffe' },
+    },
     authors: [{ name: '문정세무회계컨설팅' }],
     creator: '문정세무회계컨설팅',
     openGraph: {
