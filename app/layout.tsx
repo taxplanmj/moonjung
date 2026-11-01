@@ -76,6 +76,7 @@ export default function RootLayout({
         <html lang="ko" className={notoSansKr.variable}>
             <head>
                 <link rel="manifest" href="/manifest.json" />
+                <link rel="alternate" type="application/rss+xml" title="문정세무회계컨설팅 블로그" href="/rss.xml" />
                 <link rel="icon" href="/favicon-48.png" sizes="48x48" type="image/png" />
                 <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png" />
                 <link rel="apple-touch-icon" href="/icon-192.png" />

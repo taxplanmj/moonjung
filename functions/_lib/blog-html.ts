@@ -319,6 +319,7 @@ export function renderPage({ title, description, ogImage, canonicalPath, bodyHtm
 ${ogImage ? `<meta property="og:image" content="${escapeHtml(ogImage)}" />` : ''}
 <link rel="icon" href="/icon-192.png" type="image/png" />
 <link rel="manifest" href="/manifest.json" />
+<link rel="alternate" type="application/rss+xml" title="문정세무회계컨설팅 블로그" href="/rss.xml" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 <style>${baseStyles}</style>
